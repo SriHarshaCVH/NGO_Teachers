@@ -29,6 +29,22 @@ function fromDatetimeLocalToIso(local: string) {
   return Number.isNaN(d.getTime()) ? "" : d.toISOString();
 }
 
+function firstFlattenMessage(details: {
+  fieldErrors?: Record<string, string[] | undefined>;
+  formErrors?: string[];
+}): string | undefined {
+  const fe = details.fieldErrors;
+  if (fe) {
+    const first = Object.values(fe)
+      .flat()
+      .find((m): m is string => typeof m === "string" && m.length > 0);
+    if (first) return first;
+  }
+  const root = details.formErrors;
+  if (root?.length) return root[0];
+  return undefined;
+}
+
 function buildCommonFields(fd: FormData) {
   const subjectsRaw = String(fd.get("subjectsRequired") ?? "");
   const subjectsRequired = subjectsRaw
@@ -80,16 +96,17 @@ export function ListingForm({ mode, initial }: Props) {
       });
       const data = (await res.json()) as {
         error?: string;
-        details?: { fieldErrors?: Record<string, string[] | undefined> };
+        details?: {
+          fieldErrors?: Record<string, string[] | undefined>;
+          formErrors?: string[];
+        };
       };
       if (!res.ok) {
-        const fe = data.details?.fieldErrors;
-        const first =
-          fe &&
-          Object.values(fe)
-            .flat()
-            .find((m): m is string => typeof m === "string" && m.length > 0);
-        setError(first ?? data.error ?? "Could not save listing");
+        const msg =
+          (data.details && firstFlattenMessage(data.details)) ??
+          data.error ??
+          "Could not save listing";
+        setError(msg);
         return;
       }
       router.push("/ngo/listings");
@@ -113,16 +130,17 @@ export function ListingForm({ mode, initial }: Props) {
       });
       const data = (await res.json()) as {
         error?: string;
-        details?: { fieldErrors?: Record<string, string[] | undefined> };
+        details?: {
+          fieldErrors?: Record<string, string[] | undefined>;
+          formErrors?: string[];
+        };
       };
       if (!res.ok) {
-        const fe = data.details?.fieldErrors;
-        const first =
-          fe &&
-          Object.values(fe)
-            .flat()
-            .find((m): m is string => typeof m === "string" && m.length > 0);
-        setError(first ?? data.error ?? "Could not update listing");
+        const msg =
+          (data.details && firstFlattenMessage(data.details)) ??
+          data.error ??
+          "Could not update listing";
+        setError(msg);
         return;
       }
       router.push("/ngo/listings");

@@ -18,9 +18,21 @@ export default async function HomePage() {
           </p>
           <p>
             {session.user.role === "NGO" ? (
-              <Link href="/ngo">NGO dashboard</Link>
+              <>
+                <Link href="/ngo">NGO dashboard</Link>
+                {" · "}
+                <Link href="/ngo/profile">NGO profile</Link>
+                {" · "}
+                <Link href="/ngo/listings">Listings</Link>
+              </>
             ) : (
-              <Link href="/volunteer">Volunteer dashboard</Link>
+              <>
+                <Link href="/volunteer">Volunteer dashboard</Link>
+                {" · "}
+                <Link href="/volunteer/profile">Volunteer profile</Link>
+                {" · "}
+                <Link href="/volunteer/applications">Applications</Link>
+              </>
             )}
           </p>
         </>

@@ -69,6 +69,19 @@ export default async function OpportunityDetailPage({ params }: PageProps) {
       <p>
         <Link href="/opportunities">← All opportunities</Link>
       </p>
+      {session?.user?.role === "VOLUNTEER" ? (
+        <p className="muted">
+          <Link href="/volunteer">Volunteer dashboard</Link>
+          {" · "}
+          <Link href="/volunteer/applications">My applications</Link>
+        </p>
+      ) : session?.user?.role === "NGO" ? (
+        <p className="muted">
+          <Link href="/ngo">NGO dashboard</Link>
+          {" · "}
+          <Link href="/ngo/listings">Manage listings</Link>
+        </p>
+      ) : null}
       <h1>{listing.title}</h1>
       {matchLabel ? (
         <p>
@@ -114,7 +127,7 @@ export default async function OpportunityDetailPage({ params }: PageProps) {
 
       <ApplyToListing
         listingId={id}
-        loginHref="/login"
+        loginHref={`/login?callbackUrl=${encodeURIComponent(`/opportunities/${id}`)}`}
         volunteerProfileHref="/volunteer/profile"
         applicationsHref="/volunteer/applications"
         state={applyState}

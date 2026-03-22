@@ -27,6 +27,8 @@ export default async function NgoProfilePage() {
       )}
       <p>
         <Link href="/ngo/listings">Teaching listings</Link>
+        {" · "}
+        <Link href="/opportunities">Public opportunities (preview)</Link>
       </p>
       <p>
         <Link href="/ngo">Back to NGO dashboard</Link>

@@ -36,6 +36,14 @@ export default async function OpportunitiesPage({
   const filters = parsed.success ? parsed.data : {};
   const queryInvalid = !parsed.success;
 
+  const hasActiveFilters = Boolean(
+    filters.subject ||
+      filters.location ||
+      filters.mode ||
+      filters.ageGroup ||
+      filters.language
+  );
+
   const rows = await fetchOpenListingsForDiscovery(filters);
   const session = await auth();
   const labels = await matchLabelsForVolunteerSession(session, rows);
@@ -54,6 +62,22 @@ export default async function OpportunitiesPage({
       <p>
         <Link href="/">Home</Link>
       </p>
+
+      {session?.user?.role === "VOLUNTEER" ? (
+        <p className="muted">
+          <Link href="/volunteer">Volunteer dashboard</Link>
+          {" · "}
+          <Link href="/volunteer/applications">My applications</Link>
+          {" · "}
+          <Link href="/volunteer/profile">Profile</Link>
+        </p>
+      ) : session?.user?.role === "NGO" ? (
+        <p className="muted">
+          <Link href="/ngo">NGO dashboard</Link>
+          {" · "}
+          <Link href="/ngo/listings">Manage listings</Link>
+        </p>
+      ) : null}
 
       {queryInvalid ? (
         <p role="alert">
@@ -149,7 +173,13 @@ export default async function OpportunitiesPage({
           );
         })}
       </ul>
-      {rows.length === 0 ? <p>No open listings match your filters.</p> : null}
+      {rows.length === 0 ? (
+        <p className="muted">
+          {hasActiveFilters
+            ? "No open listings match your filters. Try clearing filters or broadening your search."
+            : "There are no open listings right now. Check back later."}
+        </p>
+      ) : null}
     </main>
   );
 }

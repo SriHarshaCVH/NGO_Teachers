@@ -11,7 +11,7 @@ export default async function VolunteerLayout({
     redirect("/login");
   }
   if (session.user.role !== "VOLUNTEER") {
-    redirect("/");
+    redirect(session.user.role === "NGO" ? "/ngo" : "/login");
   }
   return <>{children}</>;
 }

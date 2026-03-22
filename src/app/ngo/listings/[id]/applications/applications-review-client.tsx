@@ -42,7 +42,11 @@ export function ApplicationsReviewClient(props: {
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {
-          setError(data.error ?? "Could not load applicant details.");
+          setError(
+            (typeof data.message === "string" && data.message) ||
+              (typeof data.error === "string" && data.error) ||
+              "Could not load applicant details."
+          );
           return;
         }
         setDetailCache((prev) => ({ ...prev, [applicationId]: data as DetailJson }));
@@ -75,11 +79,15 @@ export function ApplicationsReviewClient(props: {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
       });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        setError(data.message ?? data.error ?? "Could not update status.");
-        return;
-      }
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          setError(
+            (typeof data.message === "string" && data.message) ||
+              (typeof data.error === "string" && data.error) ||
+              "Could not update status."
+          );
+          return;
+        }
       const detail = data as DetailJson;
       setDetailCache((prev) => ({ ...prev, [applicationId]: detail }));
       setApplications((prev) =>

@@ -35,7 +35,12 @@ export default async function NgoListingsPage() {
           );
         })}
       </ul>
-      {rows.length === 0 ? <p>No listings yet.</p> : null}
+      {rows.length === 0 ? (
+        <p className="muted">
+          No listings yet.{" "}
+          <Link href="/ngo/listings/new">Create your first listing</Link>.
+        </p>
+      ) : null}
       <p>
         <Link href="/ngo">Back to NGO dashboard</Link>
       </p>

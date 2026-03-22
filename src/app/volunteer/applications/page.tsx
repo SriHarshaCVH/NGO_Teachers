@@ -1,20 +1,28 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { toPublicVolunteerApplication } from "@/lib/volunteer-application";
+import type { ApplicationStatus } from "@prisma/client";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+
+function formatApplicationStatus(status: ApplicationStatus): string {
+  switch (status) {
+    case "PENDING":
+      return "Pending";
+    case "UNDER_REVIEW":
+      return "Under review";
+    case "ACCEPTED":
+      return "Accepted";
+    case "REJECTED":
+      return "Rejected";
+    default:
+      return status;
+  }
+}
 
 export default async function VolunteerApplicationsPage() {
   const session = await auth();
-  if (!session?.user) {
-    redirect("/login");
-  }
-  if (session.user.role !== "VOLUNTEER") {
-    redirect("/");
-  }
-
   const rows = await prisma.application.findMany({
-    where: { volunteerUserId: session.user.id },
+    where: { volunteerUserId: session!.user.id },
     orderBy: { appliedAt: "desc" },
     include: {
       teachingNeed: {
@@ -49,7 +57,7 @@ export default async function VolunteerApplicationsPage() {
                 {a.listing.title}
               </Link>
               {" — "}
-              <span>{a.status}</span>
+              <span>{formatApplicationStatus(a.status)}</span>
               {" — applied "}
               {new Date(a.appliedAt).toLocaleString()}
             </li>

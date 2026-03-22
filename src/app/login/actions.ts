@@ -1,6 +1,7 @@
 "use server";
 
 import { signIn, auth } from "@/auth";
+import { safeRedirectPath } from "@/lib/safe-redirect";
 import { loginSchema } from "@/lib/validations/auth";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
@@ -15,6 +16,7 @@ export async function loginAction(
     email: formData.get("email"),
     password: formData.get("password"),
   };
+  const nextPath = safeRedirectPath(formData.get("callbackUrl"));
   const parsed = loginSchema.safeParse(raw);
   if (!parsed.success) {
     return { error: "Please enter a valid email and password" };
@@ -34,6 +36,9 @@ export async function loginAction(
   }
 
   const session = await auth();
+  if (nextPath) {
+    redirect(nextPath);
+  }
   if (session?.user?.role === "NGO") redirect("/ngo");
   if (session?.user?.role === "VOLUNTEER") redirect("/volunteer");
   redirect("/");
