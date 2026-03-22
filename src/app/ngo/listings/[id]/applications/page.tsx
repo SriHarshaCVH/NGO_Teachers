@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import { logoutAction } from "@/app/auth/actions";
 import {
   toNgoApplicationListItem,
 } from "@/lib/ngo-application-review";
@@ -50,9 +49,6 @@ export default async function NgoListingApplicationsPage({ params }: Props) {
         {" · "}
         <Link href="/ngo/listings">All listings</Link>
       </p>
-      <form action={logoutAction}>
-        <button type="submit">Log out</button>
-      </form>
     </main>
   );
 }

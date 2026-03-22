@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma";
 import { isNgoProfileComplete, toPublicNgoProfile } from "@/lib/ngo-profile";
 import Link from "next/link";
 import { NgoProfileForm } from "./ngo-profile-form";
-import { logoutAction } from "../../auth/actions";
 
 export default async function NgoProfilePage() {
   const session = await auth();
@@ -34,9 +33,6 @@ export default async function NgoProfilePage() {
         <Link href="/ngo">Back to NGO dashboard</Link>
       </p>
       <NgoProfileForm initialProfile={publicProfile} />
-      <form action={logoutAction}>
-        <button type="submit">Log out</button>
-      </form>
     </main>
   );
 }

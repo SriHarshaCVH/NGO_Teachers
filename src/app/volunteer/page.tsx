@@ -1,10 +1,10 @@
 import { auth } from "@/auth";
+import { DashboardPageLayout } from "@/components/layout/dashboard-page-layout";
 import { getVolunteerDashboardData } from "@/lib/volunteer-dashboard";
 import { isVolunteerProfileComplete } from "@/lib/volunteer-profile";
 import { prisma } from "@/lib/prisma";
 import { MatchBadge } from "@/app/opportunities/match-badge";
 import Link from "next/link";
-import { logoutAction } from "../auth/actions";
 
 export default async function VolunteerDashboardPage() {
   const session = await auth();
@@ -21,9 +21,7 @@ export default async function VolunteerDashboardPage() {
   );
 
   return (
-    <main>
-      <h1>Volunteer dashboard</h1>
-
+    <DashboardPageLayout title="Volunteer dashboard">
       {profileComplete ? (
         <p className="muted">Your volunteer profile is complete.</p>
       ) : (
@@ -126,9 +124,6 @@ export default async function VolunteerDashboardPage() {
       <p>
         <Link href="/">Home</Link>
       </p>
-      <form action={logoutAction}>
-        <button type="submit">Log out</button>
-      </form>
-    </main>
+    </DashboardPageLayout>
   );
 }

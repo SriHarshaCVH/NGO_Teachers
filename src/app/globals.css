@@ -1,39 +1,158 @@
-* {
-  box-sizing: border-box;
+@import "tailwindcss";
+
+/*
+ * Design tokens — aligned with .cursor/UI-UX-REDESIGN-PLAN.md §3 (“quiet mission SaaS”).
+ * Plan names → utilities:
+ *   --bg           → bg-background
+ *   --surface      → bg-surface (also bg-card; same value during migration)
+ *   --text         → text-foreground
+ *   --text-muted   → text-muted-foreground
+ *   --accent       → text-accent / bg-accent (mirrors primary for CTAs & links)
+ *   --accent-muted → bg-accent-muted
+ *   --danger       → text-danger / bg-danger (mirrors destructive)
+ *   --focus-ring   → ring-focus-ring
+ * Type scale: Tailwind text-sm … text-2xl; body leading-relaxed on <body>.
+ * Spacing: Tailwind default 4px grid; section rhythm via space-y / py on layouts.
+ */
+@theme {
+  --color-background: oklch(0.985 0.006 95);
+  --color-foreground: oklch(0.26 0.02 95);
+  --color-surface: oklch(0.998 0.004 95);
+  --color-card: oklch(0.998 0.004 95);
+  --color-card-foreground: oklch(0.26 0.02 95);
+  --color-muted: oklch(0.94 0.012 95);
+  --color-muted-foreground: oklch(0.44 0.02 95);
+  --color-border: oklch(0.89 0.015 95);
+
+  /* Accent = confident teal (mission-aligned; not default “bank blue”) */
+  --color-primary: oklch(0.42 0.09 175);
+  --color-primary-hover: oklch(0.36 0.09 175);
+  --color-primary-foreground: oklch(0.99 0.01 175);
+  --color-accent: oklch(0.42 0.09 175);
+  --color-accent-muted: oklch(0.94 0.03 175);
+
+  --color-destructive: oklch(0.48 0.2 25);
+  --color-danger: oklch(0.48 0.2 25);
+  --color-success: oklch(0.45 0.12 145);
+  --color-warning: oklch(0.52 0.14 75);
+  --color-warning-foreground: oklch(0.32 0.08 75);
+  --color-info: oklch(0.48 0.12 245);
+
+  --color-focus-ring: oklch(0.42 0.09 175);
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+  /* Single tier: soft elevation for cards, tables, and shells */
+  --shadow-soft: 0 1px 2px oklch(0 0 0 / 0.05), 0 4px 12px oklch(0 0 0 / 0.06);
+
+  /* Semantic type scale → utilities `text-display`, `text-heading`, `text-heading-sm` */
+  --text-display: 2.25rem;
+  --text-heading: 1.5rem;
+  --text-heading-sm: 1.125rem;
+
+  /* Vertical rhythm between major sections → `gap-section`, `py-section`, etc. */
+  --spacing-section: 2rem;
+
+  --font-sans: var(--font-sans-inter, ui-sans-serif), system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji";
 }
 
-body {
-  margin: 0;
-  font-family:
-    system-ui,
-    -apple-system,
-    Segoe UI,
-    Roboto,
-    sans-serif;
-  line-height: 1.5;
-  color: #111;
-  background: #fafafa;
+@layer base {
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans text-base leading-relaxed;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    @apply bg-accent-muted text-foreground;
+  }
+
+  a:focus-visible {
+    @apply rounded-sm outline-none ring-2 ring-focus-ring/40 ring-offset-2 ring-offset-background;
+  }
+
+  a {
+    @apply font-medium text-accent;
+  }
+
+  a:hover {
+    @apply text-primary-hover;
+  }
+
+  main:not([data-shell]) {
+    @apply mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8;
+  }
+
+  button {
+    @apply cursor-pointer;
+  }
+
+  form button[type="submit"] {
+    @apply inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm transition-colors;
+    @apply hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
 }
 
-a {
-  color: #0b57d0;
+/* Legacy aliases → token utilities (strangler migration per redesign plan §7) */
+.error {
+  @apply mb-4 text-sm font-medium text-danger;
 }
 
-main {
-  max-width: 40rem;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+.notice {
+  @apply mb-4 rounded-lg border border-info/30 bg-info/10 px-3 py-2 text-sm font-medium text-foreground;
+}
+
+.muted {
+  @apply text-sm text-muted-foreground;
+}
+
+.match-badge {
+  @apply ml-1 inline-block rounded-md bg-info/12 px-1.5 py-0.5 text-xs font-semibold text-info;
+}
+
+.dashboard-section {
+  @apply border-t border-border py-6 first:border-t-0 first:pt-0;
+}
+
+.dashboard-section h2 {
+  @apply mb-3 text-base font-semibold tracking-tight text-foreground;
+}
+
+.dashboard-stats {
+  @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-4;
+}
+
+.dashboard-stats dt {
+  @apply text-xs font-medium uppercase tracking-wide text-muted-foreground;
+}
+
+.dashboard-stats dd {
+  @apply mt-1 text-2xl font-semibold tabular-nums text-foreground;
+}
+
+.dashboard-links {
+  @apply list-disc space-y-2 pl-5 text-foreground;
+}
+
+.field-hint {
+  @apply -mt-0.5 mb-3 text-sm text-muted-foreground;
 }
 
 fieldset {
-  border: 1px solid #ccc;
-  padding: 1rem;
-  margin: 0 0 1rem;
+  @apply mb-4 rounded-xl border border-border bg-surface/80 p-4 shadow-sm;
 }
 
 label {
-  display: block;
-  margin: 0.5rem 0;
+  @apply mb-3 block text-sm font-medium text-foreground;
 }
 
 input[type="email"],
@@ -43,89 +162,19 @@ input[type="tel"],
 input[type="url"],
 select,
 textarea {
-  width: 100%;
-  max-width: 24rem;
-  padding: 0.5rem;
+  @apply mt-1 w-full max-w-md rounded-md border border-border bg-surface px-3 py-2 text-sm text-foreground shadow-inner;
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring/35 focus-visible:border-accent/40;
 }
 
 textarea {
-  max-width: 32rem;
-  resize: vertical;
+  @apply max-w-2xl resize-y;
 }
 
-.field-hint {
-  margin: -0.25rem 0 0.75rem;
-  font-size: 0.875rem;
-  color: #444;
+/* Skip link (redesign plan §4 Global) */
+.skip-link {
+  @apply absolute left-[-10000px] top-0 z-[100] whitespace-nowrap rounded-md bg-surface px-4 py-2 text-sm font-medium text-foreground shadow-soft ring-2 ring-focus-ring/50;
 }
 
-button {
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-}
-
-.error {
-  color: #b00020;
-  margin: 0 0 1rem;
-}
-
-.notice {
-  color: #0d47a1;
-  margin: 0 0 1rem;
-}
-
-.muted {
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.match-badge {
-  display: inline-block;
-  margin-left: 0.25rem;
-  padding: 0.1rem 0.4rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #0d47a1;
-  background: #e3f2fd;
-  border-radius: 4px;
-}
-
-.dashboard-section {
-  margin: 1.5rem 0;
-  padding: 1rem 0;
-  border-top: 1px solid #e0e0e0;
-}
-
-.dashboard-section h2 {
-  margin: 0 0 0.75rem;
-  font-size: 1.1rem;
-}
-
-.dashboard-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
-  gap: 0.75rem 1rem;
-  margin: 0;
-}
-
-.dashboard-stats dt {
-  margin: 0;
-  font-size: 0.85rem;
-  color: #555;
-  font-weight: normal;
-}
-
-.dashboard-stats dd {
-  margin: 0.15rem 0 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-.dashboard-links {
-  margin: 0;
-  padding-left: 1.25rem;
-}
-
-.dashboard-links li {
-  margin: 0.35rem 0;
+.skip-link:focus {
+  @apply left-4 top-4 outline-none;
 }

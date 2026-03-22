@@ -1,9 +1,9 @@
 import { auth } from "@/auth";
+import { DashboardPageLayout } from "@/components/layout/dashboard-page-layout";
 import { getNgoDashboardData } from "@/lib/ngo-dashboard";
 import { isNgoProfileComplete } from "@/lib/ngo-profile";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import { logoutAction } from "../auth/actions";
 
 export default async function NgoDashboardPage() {
   const session = await auth();
@@ -17,9 +17,7 @@ export default async function NgoDashboardPage() {
   const profileComplete = isNgoProfileComplete(profile);
 
   return (
-    <main>
-      <h1>NGO dashboard</h1>
-
+    <DashboardPageLayout title="NGO dashboard">
       {profileComplete ? (
         <p className="muted">Your organization profile is complete.</p>
       ) : (
@@ -89,15 +87,10 @@ export default async function NgoDashboardPage() {
         </ul>
       </section>
 
-      <p className="muted">
-        Signed in as {session?.user?.email}
-      </p>
+      <p className="muted">Signed in as {session?.user?.email}</p>
       <p>
         <Link href="/">Home</Link>
       </p>
-      <form action={logoutAction}>
-        <button type="submit">Log out</button>
-      </form>
-    </main>
+    </DashboardPageLayout>
   );
 }

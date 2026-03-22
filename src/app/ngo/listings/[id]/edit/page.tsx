@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import { logoutAction } from "@/app/auth/actions";
 import { toPublicListing } from "@/lib/listing";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
@@ -30,9 +29,6 @@ export default async function EditListingPage({ params }: Props) {
         <Link href={`/ngo/listings/${id}/applications`}>Review applications</Link>
       </p>
       <ListingForm mode="edit" initial={initial} />
-      <form action={logoutAction}>
-        <button type="submit">Log out</button>
-      </form>
     </main>
   );
 }

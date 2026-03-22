@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import { logoutAction } from "@/app/auth/actions";
 import { toPublicListing } from "@/lib/listing";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
@@ -44,9 +43,6 @@ export default async function NgoListingsPage() {
       <p>
         <Link href="/ngo">Back to NGO dashboard</Link>
       </p>
-      <form action={logoutAction}>
-        <button type="submit">Log out</button>
-      </form>
     </main>
   );
 }

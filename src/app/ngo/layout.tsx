@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { AppShell } from "@/components/layout/app-shell";
 import { redirect } from "next/navigation";
 
 export default async function NgoLayout({
@@ -13,5 +14,9 @@ export default async function NgoLayout({
   if (session.user.role !== "NGO") {
     redirect(session.user.role === "VOLUNTEER" ? "/volunteer" : "/login");
   }
-  return <>{children}</>;
+  return (
+    <AppShell role="NGO" userEmail={session.user.email}>
+      {children}
+    </AppShell>
+  );
 }

@@ -1,6 +1,7 @@
 import { safeRedirectPath } from "@/lib/safe-redirect";
 import Link from "next/link";
 import { LoginForm } from "./login-form";
+import { PublicShell } from "@/components/layout/public-shell";
 
 export default async function LoginPage({
   searchParams,
@@ -15,15 +16,24 @@ export default async function LoginPage({
     ) ?? undefined;
 
   return (
-    <main>
-      <h1>Log in</h1>
-      <LoginForm registered={registered} callbackUrl={callbackUrl} />
-      <p>
-        No account? <Link href="/signup">Sign up</Link>
-      </p>
-      <p>
-        <Link href="/">Home</Link>
-      </p>
-    </main>
+    <PublicShell nav="auth-login">
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+            Log in
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Access your dashboard and opportunities.
+          </p>
+        </div>
+        <LoginForm registered={registered} callbackUrl={callbackUrl} />
+        <p className="text-sm text-muted-foreground">
+          No account? <Link href="/signup">Sign up</Link>
+        </p>
+        <p className="text-sm">
+          <Link href="/">Home</Link>
+        </p>
+      </div>
+    </PublicShell>
   );
 }

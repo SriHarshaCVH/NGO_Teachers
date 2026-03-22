@@ -6,7 +6,6 @@ import {
 } from "@/lib/volunteer-profile";
 import Link from "next/link";
 import { VolunteerProfileForm } from "./volunteer-profile-form";
-import { logoutAction } from "../../auth/actions";
 
 export default async function VolunteerProfilePage() {
   const session = await auth();
@@ -37,9 +36,6 @@ export default async function VolunteerProfilePage() {
         <Link href="/volunteer">Back to volunteer dashboard</Link>
       </p>
       <VolunteerProfileForm initialProfile={publicProfile} />
-      <form action={logoutAction}>
-        <button type="submit">Log out</button>
-      </form>
     </main>
   );
 }
