@@ -8,6 +8,8 @@ export type FormPageLayoutProps = {
   description?: string;
   backHref?: string;
   backLabel?: string;
+  /** Optional row above the title (e.g. status badge + meta). */
+  eyebrow?: ReactNode;
   children: ReactNode;
   className?: string;
 };
@@ -20,6 +22,7 @@ export function FormPageLayout({
   description,
   backHref,
   backLabel = "Back",
+  eyebrow,
   children,
   className,
 }: FormPageLayoutProps) {
@@ -31,6 +34,7 @@ export function FormPageLayout({
           description={description}
           backHref={backHref}
           backLabel={backLabel}
+          eyebrow={eyebrow}
         />
         {children}
       </main>

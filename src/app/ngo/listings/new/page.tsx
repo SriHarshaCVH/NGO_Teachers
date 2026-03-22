@@ -1,14 +1,15 @@
-import Link from "next/link";
+import { FormPageLayout } from "@/components/layout/form-page-layout";
 import { ListingForm } from "../listing-form";
 
 export default function NewListingPage() {
   return (
-    <main>
-      <h1>New listing</h1>
-      <p>
-        <Link href="/ngo/listings">Back to listings</Link>
-      </p>
+    <FormPageLayout
+      title="New listing"
+      description="Describe the role, logistics, and deadline. Save as a draft while you work, or publish when every required field is ready."
+      backHref="/ngo/listings"
+      backLabel="Back to listings"
+    >
       <ListingForm mode="create" />
-    </main>
+    </FormPageLayout>
   );
 }
