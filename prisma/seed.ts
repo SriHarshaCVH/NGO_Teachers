@@ -15,6 +15,13 @@ import {
 
 const prisma = new PrismaClient();
 
+if (process.env.NODE_ENV === "production") {
+  console.error(
+    "Refusing to run seed when NODE_ENV is production. Use a dev or staging database only."
+  );
+  process.exit(1);
+}
+
 const DEMO_NGO_EMAIL = "demo-ngo@example.com";
 const DEMO_VOL_EMAIL = "demo-volunteer@example.com";
 const DEMO_PASSWORD = "DemoPassword123!";
