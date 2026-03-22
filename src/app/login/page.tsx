@@ -2,6 +2,8 @@ import { safeRedirectPath } from "@/lib/safe-redirect";
 import Link from "next/link";
 import { LoginForm } from "./login-form";
 import { PublicShell } from "@/components/layout/public-shell";
+import { PageHeader } from "@/components/ui/page-header";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default async function LoginPage({
   searchParams,
@@ -16,22 +18,24 @@ export default async function LoginPage({
     ) ?? undefined;
 
   return (
-    <PublicShell nav="auth-login">
-      <div className="space-y-6">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-            Log in
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Access your dashboard and opportunities.
-          </p>
-        </div>
-        <LoginForm registered={registered} callbackUrl={callbackUrl} />
-        <p className="text-sm text-muted-foreground">
-          No account? <Link href="/signup">Sign up</Link>
-        </p>
-        <p className="text-sm">
-          <Link href="/">Home</Link>
+    <PublicShell nav="auth-login" contentVariant="narrow">
+      <div className="mx-auto w-full max-w-md space-y-8">
+        <PageHeader
+          title="Log in"
+          description="Access your dashboard, profile, and open opportunities."
+          backHref="/"
+          backLabel="Back to home"
+        />
+        <Card className="overflow-hidden">
+          <CardContent className="p-6 sm:p-8">
+            <LoginForm registered={registered} callbackUrl={callbackUrl} />
+          </CardContent>
+        </Card>
+        <p className="text-center text-sm text-muted-foreground">
+          No account yet?{" "}
+          <Link href="/signup" className="font-medium text-foreground">
+            Sign up
+          </Link>
         </p>
       </div>
     </PublicShell>

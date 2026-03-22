@@ -1,25 +1,29 @@
 import Link from "next/link";
 import { SignupForm } from "./signup-form";
 import { PublicShell } from "@/components/layout/public-shell";
+import { PageHeader } from "@/components/ui/page-header";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function SignupPage() {
   return (
-    <PublicShell nav="auth-signup">
-      <div className="space-y-6">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-            Sign up
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Create an account as a volunteer or an NGO representative.
-          </p>
-        </div>
-        <SignupForm />
-        <p className="text-sm text-muted-foreground">
-          Already have an account? <Link href="/login">Log in</Link>
-        </p>
-        <p className="text-sm">
-          <Link href="/">Home</Link>
+    <PublicShell nav="auth-signup" contentVariant="narrow">
+      <div className="mx-auto w-full max-w-md space-y-8">
+        <PageHeader
+          title="Create an account"
+          description="Join as a volunteer teacher or as an NGO representative—same platform, tailored next steps after you sign up."
+          backHref="/"
+          backLabel="Back to home"
+        />
+        <Card className="overflow-hidden">
+          <CardContent className="p-6 sm:p-8">
+            <SignupForm />
+          </CardContent>
+        </Card>
+        <p className="text-center text-sm text-muted-foreground">
+          Already registered?{" "}
+          <Link href="/login" className="font-medium text-foreground">
+            Log in
+          </Link>
         </p>
       </div>
     </PublicShell>
