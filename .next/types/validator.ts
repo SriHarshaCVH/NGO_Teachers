@@ -101,6 +101,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../src/app/volunteer/profile/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/volunteer/profile">> = Specific
+  const handler = {} as typeof import("../../src/app/volunteer/profile/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../src/app/api/auth/[...nextauth]/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/auth/[...nextauth]">> = Specific
@@ -114,6 +123,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/ngo/profile">> = Specific
   const handler = {} as typeof import("../../src/app/api/ngo/profile/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../src/app/api/volunteer/profile/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/volunteer/profile">> = Specific
+  const handler = {} as typeof import("../../src/app/api/volunteer/profile/route.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check

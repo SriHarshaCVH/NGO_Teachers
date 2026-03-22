@@ -40,6 +40,8 @@ input[type="email"],
 input[type="password"],
 input[type="text"],
 input[type="tel"],
+input[type="url"],
+select,
 textarea {
   width: 100%;
   max-width: 24rem;

@@ -1,11 +1,13 @@
 {
+  "/api/volunteer/profile/route": "app/api/volunteer/profile/route.js",
   "/api/ngo/profile/route": "app/api/ngo/profile/route.js",
   "/_not-found/page": "app/_not-found/page.js",
+  "/page": "app/page.js",
   "/login/page": "app/login/page.js",
   "/signup/page": "app/signup/page.js",
-  "/page": "app/page.js",
-  "/ngo/profile/page": "app/ngo/profile/page.js",
   "/ngo/page": "app/ngo/page.js",
+  "/ngo/profile/page": "app/ngo/profile/page.js",
   "/volunteer/page": "app/volunteer/page.js",
+  "/volunteer/profile/page": "app/volunteer/profile/page.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js"
 }

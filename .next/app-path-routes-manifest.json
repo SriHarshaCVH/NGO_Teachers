@@ -1,11 +1,13 @@
 {
+  "/api/volunteer/profile/route": "/api/volunteer/profile",
   "/api/ngo/profile/route": "/api/ngo/profile",
   "/_not-found/page": "/_not-found",
+  "/page": "/",
   "/login/page": "/login",
   "/signup/page": "/signup",
-  "/page": "/",
-  "/ngo/profile/page": "/ngo/profile",
   "/ngo/page": "/ngo",
+  "/ngo/profile/page": "/ngo/profile",
   "/volunteer/page": "/volunteer",
+  "/volunteer/profile/page": "/volunteer/profile",
   "/api/auth/[...nextauth]/route": "/api/auth/[...nextauth]"
 }

@@ -70,6 +70,12 @@
       "regex": "^/volunteer(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/volunteer(?:/)?$"
+    },
+    {
+      "page": "/volunteer/profile",
+      "regex": "^/volunteer/profile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/volunteer/profile(?:/)?$"
     }
   ],
   "dataRoutes": [],
