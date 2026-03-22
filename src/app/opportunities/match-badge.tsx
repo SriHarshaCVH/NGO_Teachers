@@ -1,4 +1,6 @@
+import { Badge, type BadgeProps } from "@/components/ui/badge";
 import type { MatchLabel } from "@/lib/listing-match";
+import { cn } from "@/lib/cn";
 
 const labelText: Record<MatchLabel, string> = {
   good_match: "Good match",
@@ -6,13 +8,28 @@ const labelText: Record<MatchLabel, string> = {
   not_eligible: "Not eligible",
 };
 
-export function MatchBadge({ label }: { label: MatchLabel | null }) {
+const variantByLabel: Record<MatchLabel, NonNullable<BadgeProps["variant"]>> = {
+  good_match: "success",
+  partial_match: "warning",
+  not_eligible: "destructive",
+};
+
+export function MatchBadge({
+  label,
+  className,
+  ...props
+}: { label: MatchLabel | null } & Omit<BadgeProps, "children">) {
   if (!label) {
     return null;
   }
   return (
-    <span className="match-badge" title="Rules-based match for your profile">
+    <Badge
+      variant={variantByLabel[label]}
+      title="Rules-based match for your profile"
+      className={cn("tabular-nums", className)}
+      {...props}
+    >
       {labelText[label]}
-    </span>
+    </Badge>
   );
 }

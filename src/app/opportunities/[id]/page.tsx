@@ -1,4 +1,13 @@
 import { auth } from "@/auth";
+import { PublicShell } from "@/components/layout/public-shell";
+import { Alert } from "@/components/ui/alert";
+import { PageHeader } from "@/components/ui/page-header";
+import { SectionHeader } from "@/components/ui/section-header";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+} from "@/components/ui/card";
 import { matchLabelForVolunteerSession } from "@/lib/discovery-match";
 import { fetchOpenListingById } from "@/lib/listing-discovery";
 import { toPublicListing } from "@/lib/listing";
@@ -8,6 +17,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ApplyToListing, type ApplySectionUiState } from "../apply-to-listing";
 import { MatchBadge } from "../match-badge";
+import { formatTeachingMode } from "../opportunity-helpers";
 
 type PageProps = { params: Promise<{ id: string }> };
 
@@ -64,74 +74,228 @@ export default async function OpportunityDetailPage({ params }: PageProps) {
     }
   }
 
+  const roleEyebrow =
+    session?.user?.role === "VOLUNTEER" ? (
+      <nav
+        aria-label="Volunteer shortcuts"
+        className="flex flex-wrap items-center gap-x-3 gap-y-1"
+      >
+        <Link
+          href="/volunteer"
+          className="font-medium text-foreground hover:text-primary"
+        >
+          Volunteer dashboard
+        </Link>
+        <span aria-hidden className="text-muted-foreground">
+          ·
+        </span>
+        <Link
+          href="/volunteer/applications"
+          className="font-medium text-foreground hover:text-primary"
+        >
+          My applications
+        </Link>
+      </nav>
+    ) : session?.user?.role === "NGO" ? (
+      <nav
+        aria-label="NGO shortcuts"
+        className="flex flex-wrap items-center gap-x-3 gap-y-1"
+      >
+        <Link
+          href="/ngo"
+          className="font-medium text-foreground hover:text-primary"
+        >
+          NGO dashboard
+        </Link>
+        <span aria-hidden className="text-muted-foreground">
+          ·
+        </span>
+        <Link
+          href="/ngo/listings"
+          className="font-medium text-foreground hover:text-primary"
+        >
+          Manage listings
+        </Link>
+      </nav>
+    ) : null;
+
+  const deadlineLabel = new Date(listing.applicationDeadline).toLocaleString();
+
   return (
-    <main>
-      <p>
-        <Link href="/opportunities">← All opportunities</Link>
-      </p>
-      {session?.user?.role === "VOLUNTEER" ? (
-        <p className="muted">
-          <Link href="/volunteer">Volunteer dashboard</Link>
-          {" · "}
-          <Link href="/volunteer/applications">My applications</Link>
-        </p>
-      ) : session?.user?.role === "NGO" ? (
-        <p className="muted">
-          <Link href="/ngo">NGO dashboard</Link>
-          {" · "}
-          <Link href="/ngo/listings">Manage listings</Link>
-        </p>
-      ) : null}
-      <h1>{listing.title}</h1>
-      {matchLabel ? (
-        <p>
-          Match: <MatchBadge label={matchLabel} />
-        </p>
-      ) : null}
-      {volunteerProfileIncomplete ? (
-        <p className="muted">
-          Complete your{" "}
-          <Link href="/volunteer/profile">volunteer profile</Link> to see a
-          match label for this role.
-        </p>
-      ) : null}
+    <PublicShell contentVariant="wide" nav="default">
+      <div className="space-y-8 sm:space-y-10">
+        <PageHeader
+          title={listing.title}
+          description={`Subjects: ${listing.subjectsRequired.join(", ")}`}
+          backHref="/opportunities"
+          backLabel="All opportunities"
+          eyebrow={roleEyebrow}
+        />
 
-      <dl>
-        <dt>Subjects</dt>
-        <dd>{listing.subjectsRequired.join(", ")}</dd>
-        <dt>Age group</dt>
-        <dd>{listing.ageGroup}</dd>
-        <dt>Mode</dt>
-        <dd>{listing.mode}</dd>
-        <dt>Location</dt>
-        <dd>{listing.location}</dd>
-        <dt>Time commitment</dt>
-        <dd>{listing.timeCommitment}</dd>
-        <dt>Frequency</dt>
-        <dd>{listing.frequency}</dd>
-        <dt>Language</dt>
-        <dd>{listing.languagePreference}</dd>
-        <dt>Volunteers needed</dt>
-        <dd>{listing.volunteersNeeded}</dd>
-        <dt>Application deadline</dt>
-        <dd>{new Date(listing.applicationDeadline).toLocaleString()}</dd>
+        <Card className="overflow-hidden border-primary/25 bg-gradient-to-br from-primary/[0.06] via-surface to-surface">
+          <CardHeader className="space-y-4">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div className="space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+                  At a glance
+                </p>
+                <p className="text-lg font-medium text-foreground sm:text-xl">
+                  {formatTeachingMode(listing.mode)} · {listing.location}
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {listing.ageGroup} · {listing.languagePreference}
+                </p>
+              </div>
+              {matchLabel ? (
+                <div className="flex flex-col items-start gap-2 rounded-lg border border-border/80 bg-background/60 p-3 sm:items-end sm:min-w-[12rem]">
+                  <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    Match for your profile
+                  </span>
+                  <MatchBadge label={matchLabel} />
+                </div>
+              ) : null}
+            </div>
+            {volunteerProfileIncomplete ? (
+              <Alert variant="info" title="Match labels need a complete profile">
+                <p className="m-0">
+                  Finish your{" "}
+                  <Link href="/volunteer/profile" className="font-medium">
+                    volunteer profile
+                  </Link>{" "}
+                  to see how well this role fits your teaching background.
+                </p>
+              </Alert>
+            ) : null}
+          </CardHeader>
+        </Card>
+
+        <section
+          aria-labelledby="listing-details-heading"
+          className="space-y-4"
+        >
+          <SectionHeader
+            id="listing-details-heading"
+            title="Role details"
+            description="Logistics and expectations published by the organization."
+          />
+          <Card>
+            <CardContent className="p-4 sm:p-6">
+              <dl className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="space-y-1">
+                  <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Teaching mode
+                  </dt>
+                  <dd className="text-sm font-medium text-foreground">
+                    {formatTeachingMode(listing.mode)}
+                  </dd>
+                </div>
+                <div className="space-y-1">
+                  <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Location
+                  </dt>
+                  <dd className="text-sm font-medium text-foreground">
+                    {listing.location}
+                  </dd>
+                </div>
+                <div className="space-y-1">
+                  <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Age group
+                  </dt>
+                  <dd className="text-sm font-medium text-foreground">
+                    {listing.ageGroup}
+                  </dd>
+                </div>
+                <div className="space-y-1">
+                  <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Language
+                  </dt>
+                  <dd className="text-sm font-medium text-foreground">
+                    {listing.languagePreference}
+                  </dd>
+                </div>
+                <div className="space-y-1">
+                  <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Application deadline
+                  </dt>
+                  <dd className="text-sm font-medium text-foreground">
+                    <time dateTime={listing.applicationDeadline}>
+                      {deadlineLabel}
+                    </time>
+                  </dd>
+                </div>
+                <div className="space-y-1">
+                  <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Volunteers needed
+                  </dt>
+                  <dd className="text-sm font-medium tabular-nums text-foreground">
+                    {listing.volunteersNeeded}
+                  </dd>
+                </div>
+                <div className="space-y-1 sm:col-span-2">
+                  <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Time commitment
+                  </dt>
+                  <dd className="text-sm font-medium text-foreground">
+                    {listing.timeCommitment}
+                  </dd>
+                </div>
+                <div className="space-y-1 sm:col-span-2">
+                  <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Frequency
+                  </dt>
+                  <dd className="text-sm font-medium text-foreground">
+                    {listing.frequency}
+                  </dd>
+                </div>
+              </dl>
+            </CardContent>
+          </Card>
+        </section>
+
         {listing.qualificationsText ? (
-          <>
-            <dt>Qualifications</dt>
-            <dd>{listing.qualificationsText}</dd>
-          </>
+          <section
+            aria-labelledby="listing-qualifications-heading"
+            className="space-y-4"
+          >
+            <SectionHeader
+              id="listing-qualifications-heading"
+              title="Qualifications"
+            />
+            <Card>
+              <CardContent className="p-4 sm:p-6">
+                <p className="m-0 whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+                  {listing.qualificationsText}
+                </p>
+              </CardContent>
+            </Card>
+          </section>
         ) : null}
-        <dt>Description</dt>
-        <dd>{listing.description}</dd>
-      </dl>
 
-      <ApplyToListing
-        listingId={id}
-        loginHref={`/login?callbackUrl=${encodeURIComponent(`/opportunities/${id}`)}`}
-        volunteerProfileHref="/volunteer/profile"
-        applicationsHref="/volunteer/applications"
-        state={applyState}
-      />
-    </main>
+        <section
+          aria-labelledby="listing-description-heading"
+          className="space-y-4"
+        >
+          <SectionHeader
+            id="listing-description-heading"
+            title="About this role"
+          />
+          <Card>
+            <CardContent className="p-4 sm:p-6">
+              <p className="m-0 whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
+                {listing.description}
+              </p>
+            </CardContent>
+          </Card>
+        </section>
+
+        <ApplyToListing
+          listingId={id}
+          loginHref={`/login?callbackUrl=${encodeURIComponent(`/opportunities/${id}`)}`}
+          volunteerProfileHref="/volunteer/profile"
+          applicationsHref="/volunteer/applications"
+          state={applyState}
+        />
+      </div>
+    </PublicShell>
   );
 }

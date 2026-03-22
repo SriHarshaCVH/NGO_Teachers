@@ -3,6 +3,17 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Alert } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button-link";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { SectionHeader } from "@/components/ui/section-header";
 
 export type ApplySectionUiState =
   | "anonymous"
@@ -57,59 +68,130 @@ export function ApplyToListing({
   }
 
   return (
-    <section aria-label="Apply to this opportunity">
-      <h2>Apply</h2>
-      {success ? (
-        <p className="notice">
-          Application submitted.{" "}
-          <Link href={applicationsHref}>View your applications</Link>.
-        </p>
-      ) : null}
-      {error ? <p className="error">{error}</p> : null}
+    <section
+      aria-labelledby="apply-panel-heading"
+      className="space-y-4"
+    >
+      <SectionHeader
+        id="apply-panel-heading"
+        title="Apply"
+        description="Submit your interest when you are eligible and the deadline is still open."
+      />
+      <Card className="border-primary/30 shadow-md">
+        <CardHeader className="space-y-1 pb-2">
+          <CardTitle className="text-lg font-semibold tracking-tight">
+            Your application
+          </CardTitle>
+          <CardDescription>
+            {state === "can_apply" && !success
+              ? "You meet the minimum requirements and can submit interest for this listing."
+              : "The section below reflects your account, profile, and eligibility for this role."}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4 pt-2">
+          <div aria-live="polite" className="space-y-4">
+            {success ? (
+              <Alert variant="success" title="Application submitted">
+                <p className="m-0">
+                  Thank you—your interest is on record.{" "}
+                  <Link href={applicationsHref} className="font-medium">
+                    View your applications
+                  </Link>
+                  .
+                </p>
+              </Alert>
+            ) : null}
+            {error ? (
+              <Alert variant="error" title="Could not apply">
+                <p className="m-0">{error}</p>
+              </Alert>
+            ) : null}
 
-      {state === "anonymous" ? (
-        <p className="muted">
-          <Link href={loginHref}>Log in</Link> as a volunteer to apply.
-        </p>
-      ) : null}
+            {state === "anonymous" ? (
+              <Alert variant="info" title="Sign in to apply">
+                <p className="m-0">
+                  <Link href={loginHref} className="font-medium">
+                    Log in
+                  </Link>{" "}
+                  with a volunteer account to submit an application for this
+                  listing.
+                </p>
+              </Alert>
+            ) : null}
 
-      {state === "ngo" ? (
-        <p className="muted">Only volunteer accounts can apply to listings.</p>
-      ) : null}
+            {state === "ngo" ? (
+              <Alert variant="info" title="Volunteer accounts apply to listings">
+                <p className="m-0">
+                  Only volunteer accounts can apply. Switch to a volunteer profile
+                  or share this listing with someone who teaches.
+                </p>
+              </Alert>
+            ) : null}
 
-      {state === "volunteer_incomplete" ? (
-        <p className="muted">
-          Complete your{" "}
-          <Link href={volunteerProfileHref}>volunteer profile</Link> before
-          applying.
-        </p>
-      ) : null}
+            {state === "volunteer_incomplete" ? (
+              <Alert variant="warning" title="Complete your profile first">
+                <p className="m-0">
+                  Finish your{" "}
+                  <Link href={volunteerProfileHref} className="font-medium">
+                    volunteer profile
+                  </Link>{" "}
+                  so we can confirm you meet the role requirements before you
+                  apply.
+                </p>
+              </Alert>
+            ) : null}
 
-      {state === "deadline_passed" ? (
-        <p className="muted">The application deadline for this listing has passed.</p>
-      ) : null}
+            {state === "deadline_passed" ? (
+              <Alert variant="warning" title="Deadline has passed">
+                <p className="m-0">
+                  The application deadline for this listing has passed. Browse
+                  other open roles from the opportunities list.
+                </p>
+              </Alert>
+            ) : null}
 
-      {state === "not_eligible" ? (
-        <p className="muted">
-          Your profile does not meet the minimum requirements for this listing,
-          so you cannot apply.
-        </p>
-      ) : null}
+            {state === "not_eligible" ? (
+              <Alert variant="warning" title="Not eligible for this listing">
+                <p className="m-0">
+                  Your profile does not meet the minimum requirements for this
+                  role, so applying is not available. Consider exploring other
+                  listings that better match your subjects and preferences.
+                </p>
+              </Alert>
+            ) : null}
 
-      {state === "already_applied" ? (
-        <p className="muted">
-          You have already applied.{" "}
-          <Link href={applicationsHref}>View your applications</Link>.
-        </p>
-      ) : null}
+            {state === "already_applied" ? (
+              <Alert variant="success" title="Already applied">
+                <p className="m-0">
+                  You have already submitted interest for this listing.{" "}
+                  <Link href={applicationsHref} className="font-medium">
+                    View your applications
+                  </Link>{" "}
+                  for status updates.
+                </p>
+              </Alert>
+            ) : null}
 
-      {state === "can_apply" && !success ? (
-        <p>
-          <button type="button" onClick={submit} disabled={loading}>
-            {loading ? "Submitting…" : "Apply now"}
-          </button>
-        </p>
-      ) : null}
+            {state === "can_apply" && !success ? (
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                <Button
+                  type="button"
+                  onClick={submit}
+                  disabled={loading}
+                  loading={loading}
+                  size="lg"
+                >
+                  {loading ? "Submitting…" : "Apply now"}
+                </Button>
+                <p className="text-sm text-muted-foreground">
+                  You can withdraw or follow up from your applications list
+                  after submitting.
+                </p>
+              </div>
+            ) : null}
+          </div>
+        </CardContent>
+      </Card>
     </section>
   );
 }
