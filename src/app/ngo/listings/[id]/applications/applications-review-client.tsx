@@ -1,9 +1,26 @@
 "use client";
 
+import { Alert } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { EmptyState } from "@/components/ui/empty-state";
+import { SectionHeader } from "@/components/ui/section-header";
 import type { NgoApplicationListItem } from "@/lib/ngo-application-review";
 import type { PublicVolunteerProfileForNgoReview } from "@/lib/ngo-application-review";
+import { cn } from "@/lib/cn";
+import {
+  badgeVariantForApplicationStatus,
+  labelForApplicationStatus,
+} from "@/lib/ui/status-badges";
 import { ApplicationStatus } from "@prisma/client";
-import { useCallback, useState } from "react";
+import { useCallback, useId, useState } from "react";
 
 type DetailJson = {
   application: {
@@ -14,6 +31,10 @@ type DetailJson = {
   };
   volunteerProfile: PublicVolunteerProfileForNgoReview | null;
 };
+
+function isTerminalStatus(status: ApplicationStatus): boolean {
+  return status === "ACCEPTED" || status === "REJECTED";
+}
 
 export function ApplicationsReviewClient(props: {
   listingId: string;
@@ -79,15 +100,15 @@ export function ApplicationsReviewClient(props: {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
       });
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok) {
-          setError(
-            (typeof data.message === "string" && data.message) ||
-              (typeof data.error === "string" && data.error) ||
-              "Could not update status."
-          );
-          return;
-        }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(
+          (typeof data.message === "string" && data.message) ||
+            (typeof data.error === "string" && data.error) ||
+            "Could not update status."
+        );
+        return;
+      }
       const detail = data as DetailJson;
       setDetailCache((prev) => ({ ...prev, [applicationId]: detail }));
       setApplications((prev) =>
@@ -101,43 +122,34 @@ export function ApplicationsReviewClient(props: {
   };
 
   return (
-    <div>
-      {error ? <p role="alert">{error}</p> : null}
-      <p className="muted">Listing: {listingTitle}</p>
+    <div className="space-y-6">
+      {error ? (
+        <Alert variant="error" role="alert" aria-live="assertive">
+          {error}
+        </Alert>
+      ) : null}
+
+      <SectionHeader
+        title="Applicants"
+        description={`Volunteers who applied to “${listingTitle}”. Expand a row to read their full profile before recording a decision.`}
+      />
+
       {applications.length === 0 ? (
-        <p>No applications yet.</p>
+        <EmptyState
+          title="No applications yet"
+          description="When volunteers apply to this listing, they will appear here for review."
+        />
       ) : (
-        <ul style={{ listStyle: "none", padding: 0 }}>
+        <ul className="list-none space-y-4 p-0">
           {applications.map((a) => (
-            <li
-              key={a.id}
-              style={{
-                border: "1px solid #ccc",
-                marginBottom: "0.75rem",
-                padding: "0.75rem",
-              }}
-            >
-              <div>
-                <strong>{a.volunteer.fullName}</strong>
-                {" — "}
-                <span>{a.status}</span>
-                {" — applied "}
-                {new Date(a.appliedAt).toLocaleString()}
-              </div>
-              <p style={{ marginTop: "0.5rem" }}>
-                <button type="button" onClick={() => toggleExpand(a.id)}>
-                  {expandedId === a.id ? "Hide profile" : "View applicant profile"}
-                </button>
-              </p>
-              {expandedId === a.id ? (
-                <ApplicantProfilePanel
-                  loading={loadingDetailId === a.id}
-                  detail={detailCache[a.id]}
-                />
-              ) : null}
-              <StatusActions
-                status={a.status}
-                disabled={updatingId === a.id}
+            <li key={a.id}>
+              <ApplicantReviewCard
+                application={a}
+                expanded={expandedId === a.id}
+                onToggleExpand={() => toggleExpand(a.id)}
+                detail={detailCache[a.id]}
+                loadingDetail={loadingDetailId === a.id}
+                updating={updatingId === a.id}
                 onUnderReview={() =>
                   patchStatus(a.id, ApplicationStatus.UNDER_REVIEW)
                 }
@@ -152,56 +164,166 @@ export function ApplicationsReviewClient(props: {
   );
 }
 
+function ApplicantReviewCard(props: {
+  application: NgoApplicationListItem;
+  expanded: boolean;
+  onToggleExpand: () => void;
+  detail: DetailJson | undefined;
+  loadingDetail: boolean;
+  updating: boolean;
+  onUnderReview: () => void;
+  onAccept: () => void;
+  onReject: () => void;
+}) {
+  const {
+    application: a,
+    expanded,
+    onToggleExpand,
+    detail,
+    loadingDetail,
+    updating,
+    onUnderReview,
+    onAccept,
+    onReject,
+  } = props;
+  const panelId = useId();
+  const terminal = isTerminalStatus(a.status);
+
+  return (
+    <Card
+      className={cn(
+        "overflow-hidden transition-colors",
+        a.status === "ACCEPTED" && "border-success/35 bg-success/[0.06]",
+        a.status === "REJECTED" && "border-destructive/35 bg-destructive/[0.04]"
+      )}
+    >
+      <CardHeader className="space-y-4 pb-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0 space-y-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <CardTitle className="text-lg font-semibold leading-snug">
+                {a.volunteer.fullName}
+              </CardTitle>
+              <Badge variant={badgeVariantForApplicationStatus(a.status)}>
+                {labelForApplicationStatus(a.status)}
+              </Badge>
+              {terminal ? (
+                <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  Final
+                </span>
+              ) : (
+                <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  Action needed
+                </span>
+              )}
+            </div>
+            <CardDescription className="text-sm">
+              Applied{" "}
+              {new Date(a.appliedAt).toLocaleString(undefined, {
+                dateStyle: "medium",
+                timeStyle: "short",
+              })}
+            </CardDescription>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="w-full sm:w-auto"
+            aria-expanded={expanded}
+            aria-controls={panelId}
+            onClick={onToggleExpand}
+          >
+            {expanded ? "Hide profile details" : "View applicant profile"}
+          </Button>
+        </div>
+      </CardHeader>
+
+      {expanded ? (
+        <CardContent className="border-t border-border">
+          <div id={panelId}>
+            <ApplicantProfilePanel loading={loadingDetail} detail={detail} />
+          </div>
+        </CardContent>
+      ) : null}
+
+      <CardContent className="border-t border-border pt-4">
+        <StatusActions
+          status={a.status}
+          disabled={updating}
+          onUnderReview={onUnderReview}
+          onAccept={onAccept}
+          onReject={onReject}
+        />
+      </CardContent>
+    </Card>
+  );
+}
+
 function ApplicantProfilePanel(props: {
   loading: boolean;
   detail: DetailJson | undefined;
 }) {
   const { loading, detail } = props;
   if (loading) {
-    return <p>Loading profile…</p>;
+    return (
+      <p className="text-sm text-muted-foreground" aria-live="polite">
+        Loading profile…
+      </p>
+    );
   }
   if (!detail?.volunteerProfile) {
-    return <p className="muted">No volunteer profile on file.</p>;
+    return (
+      <p className="text-sm text-muted-foreground">No volunteer profile on file.</p>
+    );
   }
   const v = detail.volunteerProfile;
   return (
-    <div
-      style={{
-        marginTop: "0.5rem",
-        padding: "0.75rem",
-        background: "#f6f6f6",
-      }}
-    >
-      <p>{v.bio}</p>
-      <dl style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "0.25rem 1rem" }}>
-        <dt>Location</dt>
-        <dd>{v.location}</dd>
-        <dt>Education</dt>
-        <dd>{v.educationBackground}</dd>
-        <dt>Subjects</dt>
-        <dd>{formatJsonField(v.subjects)}</dd>
-        <dt>Age groups</dt>
-        <dd>{formatJsonField(v.ageGroupsComfort)}</dd>
-        <dt>Languages</dt>
-        <dd>{formatJsonField(v.languages)}</dd>
-        <dt>Mode</dt>
-        <dd>{v.preferredMode}</dd>
-        <dt>Availability</dt>
-        <dd>{v.availability}</dd>
-        <dt>Experience</dt>
-        <dd>{v.priorExperience}</dd>
+    <div className="space-y-4 rounded-lg border border-border/80 bg-muted/25 p-4">
+      <div>
+        <h3 className="text-sm font-semibold text-foreground">Profile summary</h3>
+        <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+          {v.bio}
+        </p>
+      </div>
+      <dl className="grid gap-3 text-sm sm:grid-cols-[minmax(0,10rem)_1fr] sm:gap-x-4">
+        <DetailRow label="Location" value={v.location} />
+        <DetailRow label="Education" value={v.educationBackground} />
+        <DetailRow label="Subjects" value={formatJsonField(v.subjects)} />
+        <DetailRow label="Age groups" value={formatJsonField(v.ageGroupsComfort)} />
+        <DetailRow label="Languages" value={formatJsonField(v.languages)} />
+        <DetailRow label="Mode" value={v.preferredMode} />
+        <DetailRow label="Availability" value={v.availability} />
+        <DetailRow label="Experience" value={v.priorExperience} />
         {v.resumeUrl ? (
           <>
-            <dt>Resume</dt>
-            <dd>
-              <a href={v.resumeUrl} target="_blank" rel="noopener noreferrer">
-                Link
+            <dt className="font-medium text-muted-foreground">Resume</dt>
+            <dd className="min-w-0">
+              <a
+                href={v.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-primary underline-offset-2 hover:underline"
+              >
+                Open resume link
               </a>
             </dd>
           </>
         ) : null}
       </dl>
     </div>
+  );
+}
+
+function DetailRow({ label, value }: { label: string; value: string }) {
+  return (
+    <>
+      <dt className="font-medium text-muted-foreground">{label}</dt>
+      <dd className="min-w-0 text-foreground">{value}</dd>
+    </>
   );
 }
 
@@ -221,21 +343,52 @@ function StatusActions(props: {
 }) {
   const { status, disabled, onUnderReview, onAccept, onReject } = props;
   if (status === "ACCEPTED" || status === "REJECTED") {
-    return <p className="muted">Final decision recorded.</p>;
+    return (
+      <p className="m-0 text-sm text-muted-foreground" role="status">
+        Final decision recorded — no further status changes are available for this
+        application.
+      </p>
+    );
   }
   return (
-    <div style={{ marginTop: "0.5rem", display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-      {status === "PENDING" ? (
-        <button type="button" disabled={disabled} onClick={onUnderReview}>
-          Mark under review
-        </button>
-      ) : null}
-      <button type="button" disabled={disabled} onClick={onAccept}>
-        Accept
-      </button>
-      <button type="button" disabled={disabled} onClick={onReject}>
-        Reject
-      </button>
+    <div className="space-y-3">
+      <p className="m-0 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        Update status
+      </p>
+      <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+        {status === "PENDING" ? (
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            disabled={disabled}
+            onClick={onUnderReview}
+            className="w-full sm:w-auto"
+          >
+            Mark under review
+          </Button>
+        ) : null}
+        <Button
+          type="button"
+          variant="primary"
+          size="sm"
+          disabled={disabled}
+          onClick={onAccept}
+          className="w-full sm:w-auto"
+        >
+          Accept
+        </Button>
+        <Button
+          type="button"
+          variant="danger"
+          size="sm"
+          disabled={disabled}
+          onClick={onReject}
+          className="w-full sm:w-auto"
+        >
+          Reject
+        </Button>
+      </div>
     </div>
   );
 }

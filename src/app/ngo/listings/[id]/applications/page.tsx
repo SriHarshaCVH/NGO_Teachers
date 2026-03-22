@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { DashboardPageLayout } from "@/components/layout/dashboard-page-layout";
 import {
   toNgoApplicationListItem,
 } from "@/lib/ngo-application-review";
@@ -37,18 +38,29 @@ export default async function NgoListingApplicationsPage({ params }: Props) {
   const initialApplications = rows.map(toNgoApplicationListItem);
 
   return (
-    <main>
-      <h1>Applications</h1>
+    <DashboardPageLayout
+      title="Applications"
+      description={`Reviewing applicants for “${listing.title}”.`}
+      backHref="/ngo/listings"
+      backLabel="All listings"
+    >
       <ApplicationsReviewClient
         listingId={listing.id}
         listingTitle={listing.title}
         initialApplications={initialApplications}
       />
-      <p style={{ marginTop: "1rem" }}>
-        <Link href={`/ngo/listings/${listing.id}/edit`}>Edit listing</Link>
+      <p className="text-sm text-muted-foreground">
+        <Link
+          href={`/ngo/listings/${listing.id}/edit`}
+          className="font-medium text-primary hover:underline"
+        >
+          Edit listing
+        </Link>
         {" · "}
-        <Link href="/ngo/listings">All listings</Link>
+        <Link href="/ngo/listings" className="font-medium text-primary hover:underline">
+          All listings
+        </Link>
       </p>
-    </main>
+    </DashboardPageLayout>
   );
 }

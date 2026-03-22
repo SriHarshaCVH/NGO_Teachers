@@ -6,6 +6,8 @@ import type { ReactNode } from "react";
 export type DashboardPageLayoutProps = {
   title: string;
   description?: string;
+  backHref?: string;
+  backLabel?: string;
   children: ReactNode;
   className?: string;
 };
@@ -16,13 +18,20 @@ export type DashboardPageLayoutProps = {
 export function DashboardPageLayout({
   title,
   description,
+  backHref,
+  backLabel,
   children,
   className,
 }: DashboardPageLayoutProps) {
   return (
     <PageContainer variant="wide" className={cn("py-8 sm:py-10", className)}>
       <main data-shell className="space-y-8">
-        <PageHeader title={title} description={description} />
+        <PageHeader
+          title={title}
+          description={description}
+          backHref={backHref}
+          backLabel={backLabel}
+        />
         {children}
       </main>
     </PageContainer>
