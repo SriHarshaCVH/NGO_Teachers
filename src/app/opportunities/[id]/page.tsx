@@ -6,7 +6,7 @@ import { isVolunteerProfileComplete } from "@/lib/volunteer-profile";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ApplyPlaceholder } from "../apply-placeholder";
+import { ApplyToListing, type ApplySectionUiState } from "../apply-to-listing";
 import { MatchBadge } from "../match-badge";
 
 type PageProps = { params: Promise<{ id: string }> };
@@ -23,11 +23,45 @@ export default async function OpportunityDetailPage({ params }: PageProps) {
   const matchLabel = await matchLabelForVolunteerSession(session, row);
 
   let volunteerProfileIncomplete = false;
+  let hasApplied = false;
   if (session?.user?.role === "VOLUNTEER") {
     const profile = await prisma.volunteerProfile.findUnique({
       where: { userId: session.user.id },
     });
     volunteerProfileIncomplete = !isVolunteerProfileComplete(profile);
+    const existing = await prisma.application.findUnique({
+      where: {
+        teachingNeedId_volunteerUserId: {
+          teachingNeedId: id,
+          volunteerUserId: session.user.id,
+        },
+      },
+    });
+    hasApplied = Boolean(existing);
+  }
+
+  const deadlinePassed =
+    Date.now() > new Date(listing.applicationDeadline).getTime();
+
+  let applyState: ApplySectionUiState = "anonymous";
+  if (!session?.user) {
+    applyState = "anonymous";
+  } else if (session.user.role === "NGO") {
+    applyState = "ngo";
+  } else if (session.user.role === "VOLUNTEER") {
+    if (volunteerProfileIncomplete) {
+      applyState = "volunteer_incomplete";
+    } else if (deadlinePassed) {
+      applyState = "deadline_passed";
+    } else if (hasApplied) {
+      applyState = "already_applied";
+    } else if (matchLabel === "not_eligible") {
+      applyState = "not_eligible";
+    } else if (matchLabel === "good_match" || matchLabel === "partial_match") {
+      applyState = "can_apply";
+    } else {
+      applyState = "not_eligible";
+    }
   }
 
   return (
@@ -78,7 +112,13 @@ export default async function OpportunityDetailPage({ params }: PageProps) {
         <dd>{listing.description}</dd>
       </dl>
 
-      <ApplyPlaceholder />
+      <ApplyToListing
+        listingId={id}
+        loginHref="/login"
+        volunteerProfileHref="/volunteer/profile"
+        applicationsHref="/volunteer/applications"
+        state={applyState}
+      />
     </main>
   );
 }

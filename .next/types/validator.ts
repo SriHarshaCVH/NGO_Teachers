@@ -137,6 +137,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../src/app/volunteer/applications/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/volunteer/applications">> = Specific
+  const handler = {} as typeof import("../../src/app/volunteer/applications/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../src/app/volunteer/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/volunteer">> = Specific
@@ -204,6 +213,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/ngo/profile">> = Specific
   const handler = {} as typeof import("../../src/app/api/ngo/profile/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../src/app/api/volunteer/applications/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/volunteer/applications">> = Specific
+  const handler = {} as typeof import("../../src/app/api/volunteer/applications/route.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check
