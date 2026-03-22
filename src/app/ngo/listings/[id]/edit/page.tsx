@@ -26,6 +26,8 @@ export default async function EditListingPage({ params }: Props) {
       </p>
       <p>
         <Link href="/ngo/listings">Back to listings</Link>
+        {" · "}
+        <Link href={`/ngo/listings/${id}/applications`}>Review applications</Link>
       </p>
       <ListingForm mode="edit" initial={initial} />
       <form action={logoutAction}>

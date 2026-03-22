@@ -25,6 +25,8 @@ export default async function NgoListingsPage() {
               <Link href={`/ngo/listings/${l.id}/edit`}>{l.title}</Link>
               {" — "}
               <span>{l.status}</span>
+              {" — "}
+              <Link href={`/ngo/listings/${l.id}/applications`}>Applications</Link>
             </li>
           );
         })}

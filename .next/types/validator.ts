@@ -56,6 +56,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../src/app/ngo/listings/[id]/applications/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/ngo/listings/[id]/applications">> = Specific
+  const handler = {} as typeof import("../../src/app/ngo/listings/[id]/applications/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../src/app/ngo/listings/[id]/edit/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/ngo/listings/[id]/edit">> = Specific
@@ -186,6 +195,24 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/listings/discovery">> = Specific
   const handler = {} as typeof import("../../src/app/api/listings/discovery/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../src/app/api/ngo/listings/[id]/applications/[applicationId]/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/ngo/listings/[id]/applications/[applicationId]">> = Specific
+  const handler = {} as typeof import("../../src/app/api/ngo/listings/[id]/applications/[applicationId]/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../src/app/api/ngo/listings/[id]/applications/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/ngo/listings/[id]/applications">> = Specific
+  const handler = {} as typeof import("../../src/app/api/ngo/listings/[id]/applications/route.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check

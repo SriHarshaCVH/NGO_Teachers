@@ -20,56 +20,70 @@
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-38b49df12a94ee57.js",
       "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/chunks/app/api/listings/discovery/route-fca5b2f56f98f53f.js"
+      "static/chunks/app/api/listings/discovery/route-5dc74aa4f9ba3a3f.js"
+    ],
+    "/api/ngo/listings/[id]/applications/route": [
+      "static/chunks/webpack-2eb758dea75faf50.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-38b49df12a94ee57.js",
+      "static/chunks/main-app-7fe41626697c96f5.js",
+      "static/chunks/app/api/ngo/listings/[id]/applications/route-5dc74aa4f9ba3a3f.js"
     ],
     "/api/listings/[id]/route": [
       "static/chunks/webpack-2eb758dea75faf50.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-38b49df12a94ee57.js",
       "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/chunks/app/api/listings/[id]/route-fca5b2f56f98f53f.js"
+      "static/chunks/app/api/listings/[id]/route-5dc74aa4f9ba3a3f.js"
+    ],
+    "/api/ngo/listings/[id]/applications/[applicationId]/route": [
+      "static/chunks/webpack-2eb758dea75faf50.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-38b49df12a94ee57.js",
+      "static/chunks/main-app-7fe41626697c96f5.js",
+      "static/chunks/app/api/ngo/listings/[id]/applications/[applicationId]/route-5dc74aa4f9ba3a3f.js"
     ],
     "/api/ngo/listings/[id]/route": [
       "static/chunks/webpack-2eb758dea75faf50.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-38b49df12a94ee57.js",
       "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/chunks/app/api/ngo/listings/[id]/route-fca5b2f56f98f53f.js"
+      "static/chunks/app/api/ngo/listings/[id]/route-5dc74aa4f9ba3a3f.js"
     ],
     "/api/ngo/profile/route": [
       "static/chunks/webpack-2eb758dea75faf50.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-38b49df12a94ee57.js",
       "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/chunks/app/api/ngo/profile/route-fca5b2f56f98f53f.js"
-    ],
-    "/api/ngo/listings/route": [
-      "static/chunks/webpack-2eb758dea75faf50.js",
-      "static/chunks/4bd1b696-c023c6e3521b1417.js",
-      "static/chunks/255-38b49df12a94ee57.js",
-      "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/chunks/app/api/ngo/listings/route-fca5b2f56f98f53f.js"
-    ],
-    "/api/volunteer/applications/route": [
-      "static/chunks/webpack-2eb758dea75faf50.js",
-      "static/chunks/4bd1b696-c023c6e3521b1417.js",
-      "static/chunks/255-38b49df12a94ee57.js",
-      "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/chunks/app/api/volunteer/applications/route-fca5b2f56f98f53f.js"
+      "static/chunks/app/api/ngo/profile/route-5dc74aa4f9ba3a3f.js"
     ],
     "/api/volunteer/profile/route": [
       "static/chunks/webpack-2eb758dea75faf50.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-38b49df12a94ee57.js",
       "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/chunks/app/api/volunteer/profile/route-fca5b2f56f98f53f.js"
+      "static/chunks/app/api/volunteer/profile/route-5dc74aa4f9ba3a3f.js"
+    ],
+    "/api/ngo/listings/route": [
+      "static/chunks/webpack-2eb758dea75faf50.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-38b49df12a94ee57.js",
+      "static/chunks/main-app-7fe41626697c96f5.js",
+      "static/chunks/app/api/ngo/listings/route-5dc74aa4f9ba3a3f.js"
+    ],
+    "/api/volunteer/applications/route": [
+      "static/chunks/webpack-2eb758dea75faf50.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-38b49df12a94ee57.js",
+      "static/chunks/main-app-7fe41626697c96f5.js",
+      "static/chunks/app/api/volunteer/applications/route-5dc74aa4f9ba3a3f.js"
     ],
     "/api/auth/[...nextauth]/route": [
       "static/chunks/webpack-2eb758dea75faf50.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-38b49df12a94ee57.js",
       "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/chunks/app/api/auth/[...nextauth]/route-fca5b2f56f98f53f.js"
+      "static/chunks/app/api/auth/[...nextauth]/route-5dc74aa4f9ba3a3f.js"
     ],
     "/login/page": [
       "static/chunks/webpack-2eb758dea75faf50.js",
@@ -79,14 +93,6 @@
       "static/chunks/619-ba102abea3e3d0e4.js",
       "static/chunks/app/login/page-ce789ded19321d1c.js"
     ],
-    "/opportunities/[id]/page": [
-      "static/chunks/webpack-2eb758dea75faf50.js",
-      "static/chunks/4bd1b696-c023c6e3521b1417.js",
-      "static/chunks/255-38b49df12a94ee57.js",
-      "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/chunks/619-ba102abea3e3d0e4.js",
-      "static/chunks/app/opportunities/[id]/page-ceb5ed350d60a0bb.js"
-    ],
     "/opportunities/page": [
       "static/chunks/webpack-2eb758dea75faf50.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
@@ -95,13 +101,13 @@
       "static/chunks/619-ba102abea3e3d0e4.js",
       "static/chunks/app/opportunities/page-8744864feba3dd69.js"
     ],
-    "/page": [
+    "/opportunities/[id]/page": [
       "static/chunks/webpack-2eb758dea75faf50.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-38b49df12a94ee57.js",
       "static/chunks/main-app-7fe41626697c96f5.js",
       "static/chunks/619-ba102abea3e3d0e4.js",
-      "static/chunks/app/page-8744864feba3dd69.js"
+      "static/chunks/app/opportunities/[id]/page-ceb5ed350d60a0bb.js"
     ],
     "/signup/page": [
       "static/chunks/webpack-2eb758dea75faf50.js",
@@ -111,20 +117,28 @@
       "static/chunks/619-ba102abea3e3d0e4.js",
       "static/chunks/app/signup/page-5c3c422e104fb6ce.js"
     ],
-    "/ngo/layout": [
-      "static/chunks/webpack-2eb758dea75faf50.js",
-      "static/chunks/4bd1b696-c023c6e3521b1417.js",
-      "static/chunks/255-38b49df12a94ee57.js",
-      "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/chunks/app/ngo/layout-fca5b2f56f98f53f.js"
-    ],
-    "/ngo/listings/new/page": [
+    "/page": [
       "static/chunks/webpack-2eb758dea75faf50.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-38b49df12a94ee57.js",
       "static/chunks/main-app-7fe41626697c96f5.js",
       "static/chunks/619-ba102abea3e3d0e4.js",
-      "static/chunks/app/ngo/listings/new/page-208c130d39344acc.js"
+      "static/chunks/app/page-8744864feba3dd69.js"
+    ],
+    "/ngo/layout": [
+      "static/chunks/webpack-2eb758dea75faf50.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-38b49df12a94ee57.js",
+      "static/chunks/main-app-7fe41626697c96f5.js",
+      "static/chunks/app/ngo/layout-5dc74aa4f9ba3a3f.js"
+    ],
+    "/ngo/listings/[id]/applications/page": [
+      "static/chunks/webpack-2eb758dea75faf50.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-38b49df12a94ee57.js",
+      "static/chunks/main-app-7fe41626697c96f5.js",
+      "static/chunks/619-ba102abea3e3d0e4.js",
+      "static/chunks/app/ngo/listings/[id]/applications/page-e070b5dfc375c8c9.js"
     ],
     "/ngo/listings/[id]/edit/page": [
       "static/chunks/webpack-2eb758dea75faf50.js",
@@ -133,6 +147,14 @@
       "static/chunks/main-app-7fe41626697c96f5.js",
       "static/chunks/619-ba102abea3e3d0e4.js",
       "static/chunks/app/ngo/listings/[id]/edit/page-208c130d39344acc.js"
+    ],
+    "/ngo/listings/new/page": [
+      "static/chunks/webpack-2eb758dea75faf50.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-38b49df12a94ee57.js",
+      "static/chunks/main-app-7fe41626697c96f5.js",
+      "static/chunks/619-ba102abea3e3d0e4.js",
+      "static/chunks/app/ngo/listings/new/page-208c130d39344acc.js"
     ],
     "/ngo/listings/page": [
       "static/chunks/webpack-2eb758dea75faf50.js",
@@ -163,7 +185,7 @@
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-38b49df12a94ee57.js",
       "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/chunks/app/volunteer/layout-fca5b2f56f98f53f.js"
+      "static/chunks/app/volunteer/layout-5dc74aa4f9ba3a3f.js"
     ],
     "/volunteer/applications/page": [
       "static/chunks/webpack-2eb758dea75faf50.js",

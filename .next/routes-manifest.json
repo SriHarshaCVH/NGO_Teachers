@@ -44,6 +44,31 @@
       "namedRegex": "^/api/ngo/listings/(?<nxtPid>[^/]+?)(?:/)?$"
     },
     {
+      "page": "/api/ngo/listings/[id]/applications",
+      "regex": "^/api/ngo/listings/([^/]+?)/applications(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/ngo/listings/(?<nxtPid>[^/]+?)/applications(?:/)?$"
+    },
+    {
+      "page": "/api/ngo/listings/[id]/applications/[applicationId]",
+      "regex": "^/api/ngo/listings/([^/]+?)/applications/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid",
+        "nxtPapplicationId": "nxtPapplicationId"
+      },
+      "namedRegex": "^/api/ngo/listings/(?<nxtPid>[^/]+?)/applications/(?<nxtPapplicationId>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/ngo/listings/[id]/applications",
+      "regex": "^/ngo/listings/([^/]+?)/applications(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/ngo/listings/(?<nxtPid>[^/]+?)/applications(?:/)?$"
+    },
+    {
       "page": "/ngo/listings/[id]/edit",
       "regex": "^/ngo/listings/([^/]+?)/edit(?:/)?$",
       "routeKeys": {
