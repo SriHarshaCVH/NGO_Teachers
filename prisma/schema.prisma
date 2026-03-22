@@ -1,0 +1,161 @@
+// Phase 1 (P0) — NGO / volunteer matching platform
+// PostgreSQL (Neon). Use pooled DATABASE_URL at runtime; DIRECT_URL for migrations.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum UserRole {
+  NGO
+  VOLUNTEER
+}
+
+enum NgoApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum TeachingMode {
+  ONLINE
+  OFFLINE
+  HYBRID
+}
+
+enum TeachingNeedStatus {
+  DRAFT
+  OPEN
+  CLOSED
+}
+
+enum ApplicationStatus {
+  PENDING
+  UNDER_REVIEW
+  ACCEPTED
+  REJECTED
+}
+
+/// Auth identity; one role per account (P0).
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         UserRole
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  ngoProfile       NgoProfile?
+  volunteerProfile VolunteerProfile?
+
+  /// Listings owned by this user when role is NGO.
+  teachingNeeds TeachingNeed[] @relation("NgoTeachingNeeds")
+
+  /// Applications submitted by this user when role is VOLUNTEER.
+  applications Application[] @relation("VolunteerApplications")
+
+  @@index([role])
+}
+
+/// Organization profile; exactly one per NGO user.
+model NgoProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name        String
+  description String
+  location    String
+
+  /// Array of strings in JSON, e.g. ["6-10","11-14"].
+  ageGroupsServed Json
+
+  contactPersonName String
+  contactEmail      String
+  contactPhone      String
+  websiteOrSocial   String?
+
+  /// Phase 1: default APPROVED so listings can publish without admin UI.
+  approvalStatus NgoApprovalStatus @default(APPROVED)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([approvalStatus])
+}
+
+/// Volunteer teaching profile; exactly one per volunteer user.
+model VolunteerProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  fullName             String
+  bio                  String
+  location             String
+  educationBackground  String
+  subjects             Json
+  ageGroupsComfort     Json
+  languages            Json
+  preferredMode        TeachingMode
+  availability         String
+  priorExperience      String
+  resumeUrl            String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Teaching opportunity listing (draft / open / closed).
+model TeachingNeed {
+  id        String @id @default(cuid())
+  ngoUserId String
+  ngoUser   User   @relation("NgoTeachingNeeds", fields: [ngoUserId], references: [id], onDelete: Cascade)
+
+  title             String
+  subjectsRequired  Json
+  ageGroup          String
+  mode              TeachingMode
+  location          String
+  timeCommitment    String
+  frequency         String
+  languagePreference String
+  qualificationsText String?
+  description       String
+  volunteersNeeded  Int
+  applicationDeadline DateTime
+  status            TeachingNeedStatus @default(DRAFT)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  applications Application[]
+
+  @@index([status])
+  @@index([ngoUserId])
+  @@index([status, applicationDeadline])
+}
+
+/// Volunteer application to a listing; one row per (listing, volunteer).
+model Application {
+  id             String @id @default(cuid())
+  teachingNeedId String
+  teachingNeed   TeachingNeed @relation(fields: [teachingNeedId], references: [id], onDelete: Cascade)
+
+  volunteerUserId String
+  volunteerUser   User   @relation("VolunteerApplications", fields: [volunteerUserId], references: [id], onDelete: Cascade)
+
+  status     ApplicationStatus @default(PENDING)
+  appliedAt  DateTime          @default(now())
+  reviewedAt DateTime?
+
+  @@unique([teachingNeedId, volunteerUserId])
+  @@index([teachingNeedId])
+  @@index([volunteerUserId])
+  @@index([volunteerUserId, status])
+}
