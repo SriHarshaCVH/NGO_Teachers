@@ -1,9 +1,21 @@
 import { auth } from "@/auth";
+import { VolunteerRecommendedSection } from "@/components/dashboard/volunteer-recommended-section";
 import { DashboardPageLayout } from "@/components/layout/dashboard-page-layout";
+import { Alert } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { ButtonLink } from "@/components/ui/button-link";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { MetricCard } from "@/components/ui/metric-card";
+import { SectionHeader } from "@/components/ui/section-header";
 import { getVolunteerDashboardData } from "@/lib/volunteer-dashboard";
 import { isVolunteerProfileComplete } from "@/lib/volunteer-profile";
 import { prisma } from "@/lib/prisma";
-import { MatchBadge } from "@/app/opportunities/match-badge";
 import Link from "next/link";
 
 export default async function VolunteerDashboardPage() {
@@ -21,109 +33,175 @@ export default async function VolunteerDashboardPage() {
   );
 
   return (
-    <DashboardPageLayout title="Volunteer dashboard">
-      {profileComplete ? (
-        <p className="muted">Your volunteer profile is complete.</p>
-      ) : (
-        <p className="notice" role="status">
-          Your volunteer profile is incomplete. Complete it to apply to listings
-          and see personalized match labels.
-        </p>
-      )}
-
-      <section
-        className="dashboard-section"
-        aria-labelledby="vol-profile-status"
-      >
-        <h2 id="vol-profile-status">Profile</h2>
-        <p>
-          Status:{" "}
-          <strong>{profileComplete ? "Complete" : "Incomplete"}</strong>
-        </p>
+    <DashboardPageLayout
+      title="Volunteer dashboard"
+      description="See your profile status, application progress, and a short list of open roles that fit how you teach."
+    >
+      <div className="space-y-8">
         {!profileComplete ? (
-          <p>
-            <Link href="/volunteer/profile">Complete volunteer profile</Link>
-          </p>
+          <Alert variant="warning" role="status">
+            <p className="m-0">
+              Your volunteer profile is incomplete. Complete it to apply to
+              listings and see personalized match labels.
+            </p>
+            <div className="mt-4">
+              <ButtonLink href="/volunteer/profile" variant="primary" size="md">
+                Complete volunteer profile
+              </ButtonLink>
+            </div>
+          </Alert>
         ) : null}
-      </section>
 
-      <section className="dashboard-section" aria-labelledby="vol-apps-stats">
-        <h2 id="vol-apps-stats">Applications</h2>
-        <p>
-          Total submitted: <strong>{applicationCounts.total}</strong>
-        </p>
-        <dl className="dashboard-stats">
-          <div>
-            <dt>Pending</dt>
-            <dd>{applicationCounts.PENDING}</dd>
-          </div>
-          <div>
-            <dt>Under review</dt>
-            <dd>{applicationCounts.UNDER_REVIEW}</dd>
-          </div>
-          <div>
-            <dt>Accepted</dt>
-            <dd>{applicationCounts.ACCEPTED}</dd>
-          </div>
-          <div>
-            <dt>Rejected</dt>
-            <dd>{applicationCounts.REJECTED}</dd>
-          </div>
-        </dl>
-      </section>
+        <Card>
+          <CardHeader className="space-y-4 pb-2">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div className="space-y-1">
+                <CardTitle className="text-lg font-semibold tracking-tight">
+                  Profile & applications
+                </CardTitle>
+                <CardDescription>
+                  {profileComplete ? (
+                    <>Your volunteer profile is complete.</>
+                  ) : (
+                    <>
+                      Share your teaching background so we can show match labels
+                      and tailor recommendations.
+                    </>
+                  )}
+                </CardDescription>
+              </div>
+              <Badge
+                variant={profileComplete ? "success" : "warning"}
+                className="shrink-0"
+              >
+                {profileComplete ? "Profile complete" : "Profile incomplete"}
+              </Badge>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-6 pt-2">
+            <div
+              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
+              aria-label="Application totals by status"
+            >
+              <MetricCard
+                label="Total submitted"
+                value={applicationCounts.total}
+                hint="All applications"
+              />
+              <MetricCard
+                label="Pending"
+                value={applicationCounts.PENDING}
+                hint="Awaiting NGO review"
+              />
+              <MetricCard
+                label="Under review"
+                value={applicationCounts.UNDER_REVIEW}
+                hint="In progress"
+              />
+              <MetricCard
+                label="Accepted"
+                value={applicationCounts.ACCEPTED}
+                hint="Successful match"
+              />
+              <MetricCard
+                className="sm:col-span-2 lg:col-span-1 xl:col-span-1"
+                label="Rejected"
+                value={applicationCounts.REJECTED}
+                hint="Not moving forward"
+              />
+            </div>
+          </CardContent>
+        </Card>
 
-      <section
-        className="dashboard-section"
-        aria-labelledby="vol-recommended"
-      >
-        <h2 id="vol-recommended">Recommended opportunities</h2>
-        {!profileComplete ? (
-          <p className="muted">
-            Complete your profile to see a short list of relevant open listings
-            based on the same matching rules as Browse opportunities.
-          </p>
-        ) : recommended.length === 0 ? (
-          <p className="muted">
-            No additional open matches right now.{" "}
-            <Link href="/opportunities">Browse all opportunities</Link>.
-          </p>
-        ) : (
-          <ul>
-            {recommended.map(({ listing, matchLabel }) => (
-              <li key={listing.id}>
-                <Link href={`/opportunities/${listing.id}`}>
-                  {listing.title}
-                </Link>
-                {" — "}
-                <span>{listing.mode}</span>
-                {" — "}
-                <span>{listing.location}</span>{" "}
-                <MatchBadge label={matchLabel} />
+        <VolunteerRecommendedSection
+          profileComplete={profileComplete}
+          recommended={recommended}
+        />
+
+        <Card>
+          <CardHeader className="space-y-1 pb-2">
+            <CardTitle className="text-lg font-semibold tracking-tight">
+              What to do next
+            </CardTitle>
+            <CardDescription>
+              Practical steps that mirror how volunteers usually move through the
+              platform.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="pt-2">
+            <ol className="m-0 list-decimal space-y-3 pl-5 text-sm leading-relaxed text-foreground">
+              {!profileComplete ? (
+                <li>
+                  <span className="font-medium">Complete your volunteer profile</span>
+                  <span className="text-muted-foreground">
+                    {" "}
+                    — needed before you can apply and see match labels on
+                    listings.
+                  </span>
+                </li>
+              ) : (
+                <li>
+                  <span className="font-medium">Browse open opportunities</span>
+                  <span className="text-muted-foreground">
+                    {" "}
+                    — filter by subject, place, and teaching mode.
+                  </span>
+                </li>
+              )}
+              <li>
+                <span className="font-medium">Track application status</span>
+                <span className="text-muted-foreground">
+                  {" "}
+                  — pending, under review, accepted, or rejected.
+                </span>
               </li>
-            ))}
-          </ul>
-        )}
-      </section>
+              <li>
+                <span className="font-medium">Keep your profile current</span>
+                <span className="text-muted-foreground">
+                  {" "}
+                  — better data means better matches over time.
+                </span>
+              </li>
+            </ol>
+          </CardContent>
+        </Card>
 
-      <section className="dashboard-section" aria-labelledby="vol-quick-links">
-        <h2 id="vol-quick-links">Quick links</h2>
-        <ul className="dashboard-links">
-          <li>
-            <Link href="/volunteer/profile">Edit volunteer profile</Link>
-          </li>
-          <li>
-            <Link href="/opportunities">Browse opportunities</Link>
-          </li>
-          <li>
-            <Link href="/volunteer/applications">View my applications</Link>
-          </li>
-        </ul>
-      </section>
+        <section aria-labelledby="vol-quick-actions-heading">
+          <SectionHeader
+            id="vol-quick-actions-heading"
+            title="Quick actions"
+            description="Same destinations as before—just easier to spot."
+          />
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <ButtonLink
+              href="/volunteer/profile"
+              variant="outline"
+              className="w-full sm:w-auto"
+            >
+              {profileComplete ? "Edit volunteer profile" : "Go to volunteer profile"}
+            </ButtonLink>
+            <ButtonLink href="/opportunities" variant="outline" className="w-full sm:w-auto">
+              Browse opportunities
+            </ButtonLink>
+            <ButtonLink
+              href="/volunteer/applications"
+              variant="primary"
+              className="w-full sm:w-auto"
+            >
+              View my applications
+            </ButtonLink>
+          </div>
+        </section>
 
-      <p className="muted">Signed in as {session?.user?.email}</p>
-      <p>
-        <Link href="/">Home</Link>
-      </p>
+        <p className="text-sm text-muted-foreground">
+          <Link
+            href="/"
+            className="font-medium text-primary underline-offset-4 hover:underline"
+          >
+            ← Home
+          </Link>
+        </p>
+      </div>
     </DashboardPageLayout>
   );
 }
