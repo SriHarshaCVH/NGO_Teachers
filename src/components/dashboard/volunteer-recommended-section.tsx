@@ -42,7 +42,8 @@ export function VolunteerRecommendedSection({
         </Alert>
       ) : recommended.length === 0 ? (
         <EmptyState
-          title="No additional open matches right now."
+          title="No additional open matches right now"
+          description="Try the full opportunities list—new roles are added as organizations publish them."
           action={
             <ButtonLink href="/opportunities" variant="outline">
               Browse all opportunities

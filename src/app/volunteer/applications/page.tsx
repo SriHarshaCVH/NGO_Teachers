@@ -113,11 +113,11 @@ export default async function VolunteerApplicationsPage() {
                           {labelForApplicationStatus(a.status)}
                         </Badge>
                         {terminal ? (
-                          <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                          <span className="text-xs font-medium text-muted-foreground">
                             Final
                           </span>
                         ) : (
-                          <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                          <span className="text-xs font-medium text-muted-foreground">
                             In progress
                           </span>
                         )}
@@ -167,18 +167,26 @@ export default async function VolunteerApplicationsPage() {
           </DataList>
         )}
 
-        <p className="text-sm text-muted-foreground">
-          <Link href="/volunteer" className="font-medium text-primary hover:underline">
+        <nav
+          aria-label="Related pages"
+          className="flex flex-wrap gap-x-3 gap-y-1 text-sm text-muted-foreground"
+        >
+          <Link
+            href="/volunteer"
+            className="font-medium text-primary underline-offset-4 hover:underline"
+          >
             Volunteer dashboard
           </Link>
-          {" · "}
+          <span aria-hidden className="text-muted-foreground">
+            ·
+          </span>
           <Link
             href="/volunteer/profile"
-            className="font-medium text-primary hover:underline"
+            className="font-medium text-primary underline-offset-4 hover:underline"
           >
             Volunteer profile
           </Link>
-        </p>
+        </nav>
       </div>
     </DashboardPageLayout>
   );

@@ -49,18 +49,26 @@ export default async function NgoListingApplicationsPage({ params }: Props) {
         listingTitle={listing.title}
         initialApplications={initialApplications}
       />
-      <p className="text-sm text-muted-foreground">
+      <nav
+        aria-label="Related pages"
+        className="flex flex-wrap gap-x-3 gap-y-1 text-sm text-muted-foreground"
+      >
         <Link
           href={`/ngo/listings/${listing.id}/edit`}
-          className="font-medium text-primary hover:underline"
+          className="font-medium text-primary underline-offset-4 hover:underline"
         >
           Edit listing
         </Link>
-        {" · "}
-        <Link href="/ngo/listings" className="font-medium text-primary hover:underline">
+        <span aria-hidden className="text-muted-foreground">
+          ·
+        </span>
+        <Link
+          href="/ngo/listings"
+          className="font-medium text-primary underline-offset-4 hover:underline"
+        >
           All listings
         </Link>
-      </p>
+      </nav>
     </DashboardPageLayout>
   );
 }

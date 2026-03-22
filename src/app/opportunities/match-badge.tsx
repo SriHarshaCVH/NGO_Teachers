@@ -1,6 +1,5 @@
 import { Badge, type BadgeProps } from "@/components/ui/badge";
 import type { MatchLabel } from "@/lib/listing-match";
-import { cn } from "@/lib/cn";
 
 const labelText: Record<MatchLabel, string> = {
   good_match: "Good match",
@@ -26,7 +25,7 @@ export function MatchBadge({
     <Badge
       variant={variantByLabel[label]}
       title="Rules-based match for your profile"
-      className={cn("tabular-nums", className)}
+      className={className}
       {...props}
     >
       {labelText[label]}

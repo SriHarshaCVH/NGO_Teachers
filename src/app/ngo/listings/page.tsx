@@ -102,11 +102,14 @@ export default async function NgoListingsPage() {
           </DataList>
         )}
 
-        <p className="text-sm text-muted-foreground">
-          <Link href="/ngo" className="font-medium text-primary hover:underline">
-            Back to NGO dashboard
+        <nav aria-label="Related pages" className="text-sm text-muted-foreground">
+          <Link
+            href="/ngo"
+            className="font-medium text-primary underline-offset-4 hover:underline"
+          >
+            NGO dashboard
           </Link>
-        </p>
+        </nav>
       </div>
     </DashboardPageLayout>
   );

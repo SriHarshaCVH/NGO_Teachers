@@ -124,8 +124,8 @@ export function ApplicationsReviewClient(props: {
   return (
     <div className="space-y-6">
       {error ? (
-        <Alert variant="error" role="alert" aria-live="assertive">
-          {error}
+        <Alert variant="error" role="alert" aria-live="assertive" title="Something went wrong">
+          <p className="m-0">{error}</p>
         </Alert>
       ) : null}
 
@@ -208,12 +208,12 @@ function ApplicantReviewCard(props: {
                 {labelForApplicationStatus(a.status)}
               </Badge>
               {terminal ? (
-                <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                <span className="text-xs font-medium text-muted-foreground">
                   Final
                 </span>
               ) : (
-                <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  Action needed
+                <span className="text-xs font-medium text-muted-foreground">
+                  In progress
                 </span>
               )}
             </div>
@@ -352,9 +352,7 @@ function StatusActions(props: {
   }
   return (
     <div className="space-y-3">
-      <p className="m-0 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-        Update status
-      </p>
+      <p className="m-0 text-sm font-medium text-muted-foreground">Update status</p>
       <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
         {status === "PENDING" ? (
           <Button

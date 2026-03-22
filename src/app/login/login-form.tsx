@@ -24,13 +24,13 @@ export function LoginForm({
         <input type="hidden" name="callbackUrl" value={callbackUrl} />
       ) : null}
       {registered ? (
-        <Alert variant="info" className="mb-6">
-          Account created. You can log in below.
+        <Alert variant="info" title="Account created" className="mb-6">
+          <p className="m-0">You can log in below.</p>
         </Alert>
       ) : null}
       {state?.error ? (
-        <Alert variant="error" className="mb-6">
-          {state.error}
+        <Alert variant="error" title="Could not log in" className="mb-6">
+          <p className="m-0">{state.error}</p>
         </Alert>
       ) : null}
       <FormField id="login-email" label="Email">

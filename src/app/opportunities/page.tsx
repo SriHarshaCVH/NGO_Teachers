@@ -136,7 +136,7 @@ export default async function OpportunitiesPage({
 
   return (
     <PublicShell contentVariant="wide" nav="default">
-      <div className="space-y-10 sm:space-y-12">
+      <div className="space-y-8 sm:space-y-10">
         <PageHeader
           title="Teaching opportunities"
           description="Discover open roles from partner organizations—each listing is live and ready for thoughtful applications."

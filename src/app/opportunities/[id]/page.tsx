@@ -148,7 +148,7 @@ export default async function OpportunityDetailPage({ params }: PageProps) {
               </div>
               {matchLabel ? (
                 <div className="flex flex-col items-start gap-2 rounded-lg border border-border/80 bg-background/60 p-3 sm:items-end sm:min-w-[12rem]">
-                  <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  <span className="text-xs font-medium text-muted-foreground">
                     Match for your profile
                   </span>
                   <MatchBadge label={matchLabel} />

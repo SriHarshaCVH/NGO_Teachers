@@ -16,7 +16,6 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { getVolunteerDashboardData } from "@/lib/volunteer-dashboard";
 import { isVolunteerProfileComplete } from "@/lib/volunteer-profile";
 import { prisma } from "@/lib/prisma";
-import Link from "next/link";
 
 export default async function VolunteerDashboardPage() {
   const session = await auth();
@@ -192,15 +191,6 @@ export default async function VolunteerDashboardPage() {
             </ButtonLink>
           </div>
         </section>
-
-        <p className="text-sm text-muted-foreground">
-          <Link
-            href="/"
-            className="font-medium text-primary underline-offset-4 hover:underline"
-          >
-            ← Home
-          </Link>
-        </p>
       </div>
     </DashboardPageLayout>
   );

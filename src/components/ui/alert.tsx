@@ -10,7 +10,7 @@ const variantClasses: Record<AlertVariant, string> = {
   warning:
     "border-warning/35 bg-warning/12 text-foreground [&_a]:text-primary [&_a]:underline-offset-2",
   error:
-    "border-danger/35 bg-danger/10 text-foreground [&_a]:text-accent [&_a]:underline",
+    "border-danger/35 bg-danger/10 text-foreground [&_a]:text-primary [&_a]:underline-offset-2",
 };
 
 export type AlertProps = HTMLAttributes<HTMLDivElement> & {
