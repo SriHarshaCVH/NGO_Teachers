@@ -7,6 +7,10 @@ export default async function HomePage() {
   return (
     <main>
       <h1>NGO Teachers</h1>
+      <p>
+        <Link href="/opportunities">Browse teaching opportunities</Link> (open
+        listings only).
+      </p>
       {session?.user ? (
         <>
           <p>

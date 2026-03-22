@@ -26,6 +26,9 @@ export default async function NgoProfilePage() {
         <p>Update your organization details below.</p>
       )}
       <p>
+        <Link href="/ngo/listings">Teaching listings</Link>
+      </p>
+      <p>
         <Link href="/ngo">Back to NGO area</Link>
       </p>
       <NgoProfileForm initialProfile={publicProfile} />

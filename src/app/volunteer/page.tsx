@@ -22,6 +22,9 @@ export default async function VolunteerAreaPage() {
         Signed in as {session?.user?.email} (user id: {session?.user?.id}).
       </p>
       <p>
+        <Link href="/opportunities">Browse teaching opportunities</Link>
+      </p>
+      <p>
         <Link href="/volunteer/profile">Edit volunteer profile</Link>
       </p>
       <p>

@@ -26,6 +26,38 @@
         "nxtPnextauth": "nxtPnextauth"
       },
       "namedRegex": "^/api/auth/(?<nxtPnextauth>.+?)(?:/)?$"
+    },
+    {
+      "page": "/api/listings/[id]",
+      "regex": "^/api/listings/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/listings/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/ngo/listings/[id]",
+      "regex": "^/api/ngo/listings/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/ngo/listings/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/ngo/listings/[id]/edit",
+      "regex": "^/ngo/listings/([^/]+?)/edit(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/ngo/listings/(?<nxtPid>[^/]+?)/edit(?:/)?$"
+    },
+    {
+      "page": "/opportunities/[id]",
+      "regex": "^/opportunities/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/opportunities/(?<nxtPid>[^/]+?)(?:/)?$"
     }
   ],
   "staticRoutes": [
@@ -54,10 +86,28 @@
       "namedRegex": "^/ngo(?:/)?$"
     },
     {
+      "page": "/ngo/listings",
+      "regex": "^/ngo/listings(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/ngo/listings(?:/)?$"
+    },
+    {
+      "page": "/ngo/listings/new",
+      "regex": "^/ngo/listings/new(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/ngo/listings/new(?:/)?$"
+    },
+    {
       "page": "/ngo/profile",
       "regex": "^/ngo/profile(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/ngo/profile(?:/)?$"
+    },
+    {
+      "page": "/opportunities",
+      "regex": "^/opportunities(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/opportunities(?:/)?$"
     },
     {
       "page": "/signup",

@@ -25,6 +25,9 @@ export default async function NgoAreaPage() {
         <Link href="/ngo/profile">Edit NGO profile</Link>
       </p>
       <p>
+        <Link href="/ngo/listings">Teaching listings</Link>
+      </p>
+      <p>
         <Link href="/">Home</Link>
       </p>
       <form action={logoutAction}>
