@@ -7,28 +7,20 @@
       "static/chunks/main-app-7fe41626697c96f5.js",
       "static/chunks/app/_not-found/page-cc509e3ce97fe86d.js"
     ],
+    "/api/ngo/profile/route": [
+      "static/chunks/webpack-4e6bf084ac60582b.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-38b49df12a94ee57.js",
+      "static/chunks/main-app-7fe41626697c96f5.js",
+      "static/chunks/app/api/ngo/profile/route-1fc17e7baaac3727.js"
+    ],
     "/layout": [
       "static/chunks/webpack-4e6bf084ac60582b.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-38b49df12a94ee57.js",
       "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/css/5c19b899a7c3daeb.css",
+      "static/css/0e4e3dad0c68fc4a.css",
       "static/chunks/app/layout-8939f357ebc7ba98.js"
-    ],
-    "/api/auth/[...nextauth]/route": [
-      "static/chunks/webpack-4e6bf084ac60582b.js",
-      "static/chunks/4bd1b696-c023c6e3521b1417.js",
-      "static/chunks/255-38b49df12a94ee57.js",
-      "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/chunks/app/api/auth/[...nextauth]/route-6bdf343e25d06074.js"
-    ],
-    "/signup/page": [
-      "static/chunks/webpack-4e6bf084ac60582b.js",
-      "static/chunks/4bd1b696-c023c6e3521b1417.js",
-      "static/chunks/255-38b49df12a94ee57.js",
-      "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/chunks/619-ba102abea3e3d0e4.js",
-      "static/chunks/app/signup/page-5c3c422e104fb6ce.js"
     ],
     "/login/page": [
       "static/chunks/webpack-4e6bf084ac60582b.js",
@@ -38,6 +30,14 @@
       "static/chunks/619-ba102abea3e3d0e4.js",
       "static/chunks/app/login/page-ce789ded19321d1c.js"
     ],
+    "/signup/page": [
+      "static/chunks/webpack-4e6bf084ac60582b.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-38b49df12a94ee57.js",
+      "static/chunks/main-app-7fe41626697c96f5.js",
+      "static/chunks/619-ba102abea3e3d0e4.js",
+      "static/chunks/app/signup/page-5c3c422e104fb6ce.js"
+    ],
     "/page": [
       "static/chunks/webpack-4e6bf084ac60582b.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
@@ -46,12 +46,35 @@
       "static/chunks/619-ba102abea3e3d0e4.js",
       "static/chunks/app/page-7ec5505479971b23.js"
     ],
+    "/ngo/layout": [
+      "static/chunks/webpack-4e6bf084ac60582b.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-38b49df12a94ee57.js",
+      "static/chunks/main-app-7fe41626697c96f5.js",
+      "static/chunks/app/ngo/layout-1fc17e7baaac3727.js"
+    ],
+    "/ngo/profile/page": [
+      "static/chunks/webpack-4e6bf084ac60582b.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-38b49df12a94ee57.js",
+      "static/chunks/main-app-7fe41626697c96f5.js",
+      "static/chunks/619-ba102abea3e3d0e4.js",
+      "static/chunks/app/ngo/profile/page-a20f80e65ae3f98d.js"
+    ],
+    "/ngo/page": [
+      "static/chunks/webpack-4e6bf084ac60582b.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-38b49df12a94ee57.js",
+      "static/chunks/main-app-7fe41626697c96f5.js",
+      "static/chunks/619-ba102abea3e3d0e4.js",
+      "static/chunks/app/ngo/page-7ec5505479971b23.js"
+    ],
     "/volunteer/layout": [
       "static/chunks/webpack-4e6bf084ac60582b.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-38b49df12a94ee57.js",
       "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/chunks/app/volunteer/layout-6bdf343e25d06074.js"
+      "static/chunks/app/volunteer/layout-1fc17e7baaac3727.js"
     ],
     "/volunteer/page": [
       "static/chunks/webpack-4e6bf084ac60582b.js",
@@ -61,20 +84,12 @@
       "static/chunks/619-ba102abea3e3d0e4.js",
       "static/chunks/app/volunteer/page-7ec5505479971b23.js"
     ],
-    "/ngo/layout": [
+    "/api/auth/[...nextauth]/route": [
       "static/chunks/webpack-4e6bf084ac60582b.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-38b49df12a94ee57.js",
       "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/chunks/app/ngo/layout-6bdf343e25d06074.js"
-    ],
-    "/ngo/page": [
-      "static/chunks/webpack-4e6bf084ac60582b.js",
-      "static/chunks/4bd1b696-c023c6e3521b1417.js",
-      "static/chunks/255-38b49df12a94ee57.js",
-      "static/chunks/main-app-7fe41626697c96f5.js",
-      "static/chunks/619-ba102abea3e3d0e4.js",
-      "static/chunks/app/ngo/page-7ec5505479971b23.js"
+      "static/chunks/app/api/auth/[...nextauth]/route-1fc17e7baaac3727.js"
     ]
   }
 }

@@ -54,6 +54,12 @@
       "namedRegex": "^/ngo(?:/)?$"
     },
     {
+      "page": "/ngo/profile",
+      "regex": "^/ngo/profile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/ngo/profile(?:/)?$"
+    },
+    {
       "page": "/signup",
       "regex": "^/signup(?:/)?$",
       "routeKeys": {},

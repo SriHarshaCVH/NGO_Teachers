@@ -37,10 +37,24 @@ label {
 }
 
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="text"],
+input[type="tel"],
+textarea {
   width: 100%;
   max-width: 24rem;
   padding: 0.5rem;
+}
+
+textarea {
+  max-width: 32rem;
+  resize: vertical;
+}
+
+.field-hint {
+  margin: -0.25rem 0 0.75rem;
+  font-size: 0.875rem;
+  color: #444;
 }
 
 button {
