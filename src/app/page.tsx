@@ -18,9 +18,9 @@ export default async function HomePage() {
           </p>
           <p>
             {session.user.role === "NGO" ? (
-              <Link href="/ngo">Go to NGO area</Link>
+              <Link href="/ngo">NGO dashboard</Link>
             ) : (
-              <Link href="/volunteer">Go to volunteer area</Link>
+              <Link href="/volunteer">Volunteer dashboard</Link>
             )}
           </p>
         </>

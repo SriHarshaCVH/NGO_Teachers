@@ -17,6 +17,10 @@ export default async function NgoListingsPage() {
       <p>
         <Link href="/ngo/listings/new">Create listing</Link>
       </p>
+      <h2 id="review-applications">Your listings</h2>
+      <p className="muted">
+        Use <strong>Applications</strong> on a listing to review applicants.
+      </p>
       <ul>
         {rows.map((r) => {
           const l = toPublicListing(r);
@@ -33,7 +37,7 @@ export default async function NgoListingsPage() {
       </ul>
       {rows.length === 0 ? <p>No listings yet.</p> : null}
       <p>
-        <Link href="/ngo">Back to NGO area</Link>
+        <Link href="/ngo">Back to NGO dashboard</Link>
       </p>
       <form action={logoutAction}>
         <button type="submit">Log out</button>

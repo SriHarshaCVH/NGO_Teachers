@@ -57,6 +57,8 @@ export default async function VolunteerApplicationsPage() {
         </ul>
       )}
       <p>
+        <Link href="/volunteer">Volunteer dashboard</Link>
+        {" · "}
         <Link href="/volunteer/profile">Volunteer profile</Link>
       </p>
     </main>

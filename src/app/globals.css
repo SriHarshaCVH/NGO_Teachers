@@ -89,3 +89,43 @@ button {
   background: #e3f2fd;
   border-radius: 4px;
 }
+
+.dashboard-section {
+  margin: 1.5rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid #e0e0e0;
+}
+
+.dashboard-section h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+}
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+  gap: 0.75rem 1rem;
+  margin: 0;
+}
+
+.dashboard-stats dt {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #555;
+  font-weight: normal;
+}
+
+.dashboard-stats dd {
+  margin: 0.15rem 0 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.dashboard-links {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.dashboard-links li {
+  margin: 0.35rem 0;
+}

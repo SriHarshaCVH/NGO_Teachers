@@ -29,7 +29,7 @@ export default async function VolunteerProfilePage() {
         <p>Update your teaching profile below.</p>
       )}
       <p>
-        <Link href="/volunteer">Back to volunteer area</Link>
+        <Link href="/volunteer">Back to volunteer dashboard</Link>
       </p>
       <VolunteerProfileForm initialProfile={publicProfile} />
       <form action={logoutAction}>
