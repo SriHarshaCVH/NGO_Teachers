@@ -17,7 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { matchLabelsForVolunteerSession } from "@/lib/discovery-match";
+import { matchExplanationsForVolunteerSession } from "@/lib/discovery-match";
 import { fetchOpenListingsForDiscovery } from "@/lib/listing-discovery";
 import { toPublicListing } from "@/lib/listing";
 import { isVolunteerProfileComplete } from "@/lib/volunteer-profile";
@@ -64,7 +64,7 @@ export default async function OpportunitiesPage({
 
   const rows = await fetchOpenListingsForDiscovery(filters);
   const session = await auth();
-  const labels = await matchLabelsForVolunteerSession(session, rows);
+  const explanations = await matchExplanationsForVolunteerSession(session, rows);
 
   let volunteerProfileIncomplete = false;
   if (session?.user?.role === "VOLUNTEER") {
@@ -285,12 +285,14 @@ export default async function OpportunitiesPage({
             <ul className="grid list-none gap-4 p-0 sm:grid-cols-2 sm:gap-5 lg:grid-cols-2 xl:gap-6">
               {rows.map((row, i) => {
                 const listing = toPublicListing(row);
-                const matchLabel = labels[i];
+                const explanation = explanations[i];
+                const matchLabel = explanation?.label ?? null;
                 return (
                   <OpportunityCard
                     key={listing.id}
                     listing={listing}
                     matchLabel={matchLabel}
+                    matchExplanation={explanation}
                   />
                 );
               })}

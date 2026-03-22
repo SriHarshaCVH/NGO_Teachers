@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { SectionHeader } from "@/components/ui/section-header";
+import type { MatchExplanation } from "@/lib/listing-match";
 
 export type ApplySectionUiState =
   | "anonymous"
@@ -30,6 +31,8 @@ type ApplyToListingProps = {
   volunteerProfileHref: string;
   applicationsHref: string;
   state: ApplySectionUiState;
+  /** Rules-based explanation; mirrors the match panel on the listing page */
+  eligibilityExplanation?: MatchExplanation | null;
 };
 
 export function ApplyToListing({
@@ -38,6 +41,7 @@ export function ApplyToListing({
   volunteerProfileHref,
   applicationsHref,
   state,
+  eligibilityExplanation,
 }: ApplyToListingProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -120,10 +124,10 @@ export function ApplyToListing({
             ) : null}
 
             {state === "ngo" ? (
-              <Alert variant="info" title="Volunteer accounts apply to listings">
+              <Alert variant="info" title="Wrong account type for applying">
                 <p className="m-0">
-                  Only volunteer accounts can apply. Switch to a volunteer profile
-                  or share this listing with someone who teaches.
+                  Only volunteer accounts can apply to listings. Sign in with a
+                  volunteer profile, or share this role with someone who teaches.
                 </p>
               </Alert>
             ) : null}
@@ -137,6 +141,12 @@ export function ApplyToListing({
                   </Link>{" "}
                   so we can confirm you meet the role requirements before you
                   apply.
+                  {eligibilityExplanation?.profileIncomplete ? (
+                    <>
+                      {" "}
+                      {eligibilityExplanation.summary}
+                    </>
+                  ) : null}
                 </p>
               </Alert>
             ) : null}
@@ -152,11 +162,30 @@ export function ApplyToListing({
 
             {state === "not_eligible" ? (
               <Alert variant="warning" title="Not eligible for this listing">
-                <p className="m-0">
-                  Your profile does not meet the minimum requirements for this
-                  role, so applying is not available. Consider exploring other
-                  listings that better match your subjects and preferences.
-                </p>
+                <div className="space-y-3">
+                  <p className="m-0">
+                    Your profile does not meet the minimum requirements for this
+                    role, so applying is not available. Consider exploring other
+                    listings that better match your subjects and preferences.
+                  </p>
+                  {eligibilityExplanation &&
+                  !eligibilityExplanation.profileIncomplete ? (
+                    <ul className="m-0 list-none space-y-2 p-0">
+                      {eligibilityExplanation.reasons.map((r) => (
+                        <li
+                          key={r.code}
+                          className="flex gap-2 text-sm leading-snug text-foreground/90"
+                        >
+                          <span
+                            className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-warning"
+                            aria-hidden
+                          />
+                          <span>{r.description}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
               </Alert>
             ) : null}
 

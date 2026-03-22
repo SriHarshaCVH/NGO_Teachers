@@ -8,7 +8,7 @@ import {
   CardContent,
   CardHeader,
 } from "@/components/ui/card";
-import { matchLabelForVolunteerSession } from "@/lib/discovery-match";
+import { matchExplanationForVolunteerSession } from "@/lib/discovery-match";
 import { fetchOpenListingById } from "@/lib/listing-discovery";
 import { toPublicListing } from "@/lib/listing";
 import { isVolunteerProfileComplete } from "@/lib/volunteer-profile";
@@ -16,6 +16,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ApplyToListing, type ApplySectionUiState } from "../apply-to-listing";
+import { MatchExplanationDetail } from "../match-explanation";
 import { MatchBadge } from "../match-badge";
 import { formatTeachingMode } from "../opportunity-helpers";
 
@@ -30,7 +31,8 @@ export default async function OpportunityDetailPage({ params }: PageProps) {
 
   const session = await auth();
   const listing = toPublicListing(row);
-  const matchLabel = await matchLabelForVolunteerSession(session, row);
+  const matchExplanation = await matchExplanationForVolunteerSession(session, row);
+  const matchLabel = matchExplanation?.label ?? null;
 
   let volunteerProfileIncomplete = false;
   let hasApplied = false;
@@ -155,7 +157,13 @@ export default async function OpportunityDetailPage({ params }: PageProps) {
                 </div>
               ) : null}
             </div>
-            {volunteerProfileIncomplete ? (
+            {matchExplanation ? (
+              <MatchExplanationDetail
+                explanation={matchExplanation}
+                volunteerProfileHref="/volunteer/profile"
+              />
+            ) : null}
+            {volunteerProfileIncomplete && !matchExplanation?.profileIncomplete ? (
               <Alert variant="info" title="Match labels need a complete profile">
                 <p className="m-0">
                   Finish your{" "}
@@ -294,6 +302,7 @@ export default async function OpportunityDetailPage({ params }: PageProps) {
           volunteerProfileHref="/volunteer/profile"
           applicationsHref="/volunteer/applications"
           state={applyState}
+          eligibilityExplanation={matchExplanation}
         />
       </div>
     </PublicShell>

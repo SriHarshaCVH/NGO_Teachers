@@ -9,16 +9,22 @@ import {
 } from "@/components/ui/card";
 import { ButtonLink } from "@/components/ui/button-link";
 import type { PublicListing } from "@/lib/listing";
-import type { MatchLabel } from "@/lib/listing-match";
+import type { MatchExplanation, MatchLabel } from "@/lib/listing-match";
 import { MatchBadge } from "./match-badge";
+import { MatchExplanationCardHint } from "./match-explanation";
 import { formatDeadlineShort, formatTeachingMode } from "./opportunity-helpers";
 
 export type OpportunityCardProps = {
   listing: PublicListing;
   matchLabel: MatchLabel | null;
+  matchExplanation?: MatchExplanation | null;
 };
 
-export function OpportunityCard({ listing, matchLabel }: OpportunityCardProps) {
+export function OpportunityCard({
+  listing,
+  matchLabel,
+  matchExplanation,
+}: OpportunityCardProps) {
   const subjectPreview = listing.subjectsRequired.slice(0, 3).join(", ");
   const subjectExtra =
     listing.subjectsRequired.length > 3
@@ -60,6 +66,9 @@ export function OpportunityCard({ listing, matchLabel }: OpportunityCardProps) {
               {formatDeadlineShort(listing.applicationDeadline)}
             </time>
           </p>
+          {matchExplanation ? (
+            <MatchExplanationCardHint explanation={matchExplanation} />
+          ) : null}
         </CardContent>
         <CardFooter className="border-t border-border/60 pt-4">
           <ButtonLink
